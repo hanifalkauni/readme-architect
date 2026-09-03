@@ -193,15 +193,16 @@ ${skillInstallBlock}
 ${installCmd}
 \`\`\`
 
-#### 2. Menjalankan Perintah CLI
+#### 2. Menjalankan Aplikasi
 \`\`\`bash
-# Menghasilkan README dengan gaya Developer-Centric
-node bin/readme-architect.js --style developer-centric --theme tokyo-night
-
-# Menjalankan audit kepatuhan WCAG 2.2 AA & anti-halusinasi
-node bin/readme-architect.js --verify
+${verifiedData.verified.dev || verifiedData.verified.start || `${scanData.ecosystem.package_manager} run dev`}
 \`\`\`
-Aplikasi berjalan dan dapat diakses pada: \`http://localhost:${resolvedPort.port}\` *(Sumber: ${resolvedPort.source})*.`;
+${verifiedData.verified.build ? `
+#### 3. Build Produksi
+\`\`\`bash
+${verifiedData.verified.build}
+\`\`\`
+` : ''}Aplikasi berjalan dan dapat diakses pada: \`http://localhost:${resolvedPort.port}\` *(Sumber: ${resolvedPort.source})*.`;
 
     // 8. Environment Variables Table (Sanitized)
     let envTable = 'Tidak ada variabel lingkungan yang diperlukan.';
@@ -260,9 +261,9 @@ ${installCmd}
 \`\`\``;
     const troubleshootingContent = `<span id="troubleshooting"></span>\n## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible('Lihat Pertanyaan & Solusi Masalah Umum', faqDetails)}`;
 
-    // 13. Contributors & Community (Opsional)
-    const showContributors = (this.config.sections?.allContributors !== false) &&
-                             (this.config.standards?.enableAllContributors !== false);
+    // 13. Contributors & Community (Opt-in: hanya muncul jika diaktifkan secara eksplisit di config)
+    const showContributors = (this.config.sections?.allContributors === true) ||
+                             (this.config.standards?.enableAllContributors === true);
     const contributorsContent = showContributors ? this.standardsEngine.generateAllContributorsTable() : '';
 
     // 14. Academic Citation (if academic style)

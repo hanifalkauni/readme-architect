@@ -95,6 +95,7 @@ flowchart TD
 ├── 📄 PRD.md
 ├── ⚙️ readme-architect.config.json
 ├── 📄 README.md
+├── ⚙️ schema.json
 ├── 📄 SECURITY.md
 ├── 🧪 tests
 │   ├── 📁 fixtures
@@ -201,13 +202,9 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 npm install
 ```
 
-#### 2. Menjalankan Perintah CLI
+#### 2. Menjalankan Aplikasi
 ```bash
-# Menghasilkan README dengan gaya Developer-Centric
-node bin/readme-architect.js --style developer-centric --theme tokyo-night
-
-# Menjalankan audit kepatuhan WCAG 2.2 AA & anti-halusinasi
-node bin/readme-architect.js --verify
+npm run start
 ```
 Aplikasi berjalan dan dapat diakses pada: `http://localhost:3000` *(Sumber: framework default fallback)*.
 <!-- readme-architect:end(setup) -->
@@ -236,7 +233,7 @@ Tidak ada variabel lingkungan yang diperlukan.
 ```json
 {
   "status": "healthy",
-  "timestamp": "2026-09-03T05:15:12.594Z"
+  "timestamp": "2026-09-03T05:38:07.462Z"
 }
 ```
 </details>
