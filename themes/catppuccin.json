@@ -1,0 +1,30 @@
+{
+  "name": "Catppuccin Mocha",
+  "id": "catppuccin",
+  "palette": {
+    "primary": "#89b4fa",
+    "secondary": "#cba6f7",
+    "accent": "#89dceb",
+    "success": "#a6e3a1",
+    "warning": "#f9e2af",
+    "danger": "#f38ba8",
+    "background": "#1e1e2e",
+    "surface": "#313244",
+    "text": "#cdd6f4"
+  },
+  "mermaid": {
+    "primaryColor": "#313244",
+    "primaryTextColor": "#cdd6f4",
+    "primaryBorderColor": "#89b4fa",
+    "lineColor": "#89dceb",
+    "secondaryColor": "#1e1e2e",
+    "tertiaryColor": "#45475a"
+  },
+  "badges": {
+    "defaultColor": "89b4fa",
+    "successColor": "a6e3a1",
+    "warningColor": "f9e2af",
+    "dangerColor": "f38ba8",
+    "accentColor": "cba6f7"
+  }
+}

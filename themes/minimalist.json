@@ -1,0 +1,30 @@
+{
+  "name": "Minimalist Charcoal",
+  "id": "minimalist",
+  "palette": {
+    "primary": "#4a5568",
+    "secondary": "#718096",
+    "accent": "#2d3748",
+    "success": "#38a169",
+    "warning": "#d69e2e",
+    "danger": "#e53e3e",
+    "background": "#ffffff",
+    "surface": "#f7fafc",
+    "text": "#1a202c"
+  },
+  "mermaid": {
+    "primaryColor": "#f7fafc",
+    "primaryTextColor": "#1a202c",
+    "primaryBorderColor": "#4a5568",
+    "lineColor": "#718096",
+    "secondaryColor": "#edf2f7",
+    "tertiaryColor": "#e2e8f0"
+  },
+  "badges": {
+    "defaultColor": "4a5568",
+    "successColor": "38a169",
+    "warningColor": "d69e2e",
+    "dangerColor": "e53e3e",
+    "accentColor": "2d3748"
+  }
+}

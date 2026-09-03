@@ -1,0 +1,30 @@
+{
+  "name": "Nord",
+  "id": "nord",
+  "palette": {
+    "primary": "#88c0d0",
+    "secondary": "#81a1c1",
+    "accent": "#5e81ac",
+    "success": "#a3be8c",
+    "warning": "#ebcb8b",
+    "danger": "#bf616a",
+    "background": "#2e3440",
+    "surface": "#3b4252",
+    "text": "#eceff4"
+  },
+  "mermaid": {
+    "primaryColor": "#3b4252",
+    "primaryTextColor": "#eceff4",
+    "primaryBorderColor": "#88c0d0",
+    "lineColor": "#81a1c1",
+    "secondaryColor": "#2e3440",
+    "tertiaryColor": "#4c566a"
+  },
+  "badges": {
+    "defaultColor": "88c0d0",
+    "successColor": "a3be8c",
+    "warningColor": "ebcb8b",
+    "dangerColor": "bf616a",
+    "accentColor": "81a1c1"
+  }
+}

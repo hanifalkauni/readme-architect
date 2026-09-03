@@ -1,0 +1,19 @@
+{
+  "name": "sample-nexacloud-api",
+  "version": "2.1.0",
+  "description": "High-throughput cloud orchestration backend service",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node src/index.js",
+    "build": "echo 'Building bundle...'",
+    "test": "node --test",
+    "db:migrate": "echo 'Running migrations...'"
+  },
+  "dependencies": {
+    "fastify": "^4.28.0",
+    "@prisma/client": "^5.14.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

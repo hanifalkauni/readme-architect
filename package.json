@@ -1,0 +1,50 @@
+{
+  "name": "readme-architect",
+  "version": "1.6.0",
+  "description": "Universal AI Skill Agent for Automated, Accurate, Comprehensive & Visually Stunning README Generation",
+  "type": "module",
+  "main": "core/index.js",
+  "bin": {
+    "readme-architect": "./bin/readme-architect.js"
+  },
+  "files": [
+    "bin",
+    "core",
+    "adapters",
+    "themes",
+    "readme-architect.config.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanifalkauni/readme-architect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hanifalkauni/readme-architect/issues"
+  },
+  "homepage": "https://github.com/hanifalkauni/readme-architect#readme",
+  "scripts": {
+    "test": "node tests/test_all.js",
+    "start": "node bin/readme-architect.js",
+    "mcp": "node bin/readme-architect.js --mcp"
+  },
+  "keywords": [
+    "readme",
+    "ai-agent",
+    "documentation",
+    "antigravity",
+    "claude",
+    "cursor",
+    "mcp",
+    "markdown",
+    "beautifier",
+    "wcag",
+    "spdx"
+  ],
+  "author": "Hanif Al-Kauni",
+  "license": "MIT"
+}

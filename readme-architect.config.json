@@ -1,0 +1,38 @@
+{
+  "$schema": "https://readme-architect.dev/schema.json",
+  "writingStyle": "showcase",
+  "theme": "tokyo-night",
+  "language": "id",
+  "standards": {
+    "a11yCompliance": "wcag22-aa",
+    "spdxLicense": "MIT",
+    "targetRegistry": "github",
+    "generateCitationCff": false,
+    "enableAllContributors": true,
+    "openSsfBadges": true
+  },
+  "badges": {
+    "style": "for-the-badge",
+    "showBuild": true,
+    "showCoverage": true,
+    "showLicense": true,
+    "custom": []
+  },
+  "sections": {
+    "hero": true,
+    "architectureDiagram": true,
+    "featureGrid": true,
+    "directoryTree": true,
+    "techStackMatrix": true,
+    "envVariablesTable": true,
+    "apiReference": true,
+    "troubleshooting": true,
+    "allContributors": true
+  },
+  "beautify": {
+    "centerHeader": true,
+    "enableCollapsible": true,
+    "directoryDepth": 3,
+    "dualThemeBanner": true
+  }
+}

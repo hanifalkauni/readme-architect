@@ -1,0 +1,30 @@
+{
+  "name": "Tokyo Night",
+  "id": "tokyo-night",
+  "palette": {
+    "primary": "#7aa2f7",
+    "secondary": "#bb9af7",
+    "accent": "#7dcfff",
+    "success": "#9ece6a",
+    "warning": "#e0af68",
+    "danger": "#f7768e",
+    "background": "#1a1b26",
+    "surface": "#24283b",
+    "text": "#c0caf5"
+  },
+  "mermaid": {
+    "primaryColor": "#24283b",
+    "primaryTextColor": "#c0caf5",
+    "primaryBorderColor": "#7aa2f7",
+    "lineColor": "#7dcfff",
+    "secondaryColor": "#1a1b26",
+    "tertiaryColor": "#414868"
+  },
+  "badges": {
+    "defaultColor": "7aa2f7",
+    "successColor": "9ece6a",
+    "warningColor": "e0af68",
+    "dangerColor": "f7768e",
+    "accentColor": "bb9af7"
+  }
+}
