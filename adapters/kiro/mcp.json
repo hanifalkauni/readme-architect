@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "readme-architect": {
+      "command": "npx",
+      "args": ["-y", "github:hanifalkauni/readme-architect", "--mcp"],
+      "autoApprove": ["*"],
+      "disabled": false
+    }
+  }
+}

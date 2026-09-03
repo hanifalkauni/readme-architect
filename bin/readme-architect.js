@@ -151,7 +151,9 @@ async function syncAdapters(targetDir) {
     { src: 'cursor/readme-architect.mdc', dest: '.cursor/rules/readme-architect.mdc' },
     { src: 'windsurf/windsurfrules.md', dest: '.windsurfrules' },
     { src: 'copilot/copilot-instructions.md', dest: '.github/copilot-instructions.md' },
-    { src: 'openagent/AGENTS.md', dest: 'AGENTS.md' }
+    { src: 'openagent/AGENTS.md', dest: 'AGENTS.md' },
+    { src: 'kiro/readme-architect.md', dest: '.kiro/steering/readme-architect.md' },
+    { src: 'kiro/mcp.json', dest: '.kiro/settings/mcp.json' }
   ];
 
   console.log('🔄 Menyinkronkan konfigurasi Multi-Agent adapters...');

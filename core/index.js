@@ -182,6 +182,17 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 - **GitHub Copilot**: Salin \`adapters/copilot/copilot-instructions.md\` ke \`.github/copilot-instructions.md\`.
 </details>
 
+<details>
+<summary><b>⚡ Kiro AI IDE (kiro.dev)</b></summary>
+
+Salin steering file dan konfigurasi MCP ke direktori proyek Kiro:
+\`\`\`bash
+mkdir -p .kiro/steering .kiro/settings
+cp adapters/kiro/readme-architect.md .kiro/steering/readme-architect.md
+cp adapters/kiro/mcp.json .kiro/settings/mcp.json
+\`\`\`
+</details>
+
 ---
 `;
       } else {
@@ -244,6 +255,17 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 
 - **Windsurf**: Copy \`adapters/windsurf/windsurfrules.md\` to \`.windsurfrules\`.
 - **GitHub Copilot**: Copy \`adapters/copilot/copilot-instructions.md\` to \`.github/copilot-instructions.md\`.
+</details>
+
+<details>
+<summary><b>⚡ Kiro AI IDE (kiro.dev)</b></summary>
+
+Copy steering file and MCP configuration to your Kiro project:
+\`\`\`bash
+mkdir -p .kiro/steering .kiro/settings
+cp adapters/kiro/readme-architect.md .kiro/steering/readme-architect.md
+cp adapters/kiro/mcp.json .kiro/settings/mcp.json
+\`\`\`
 </details>
 
 ---

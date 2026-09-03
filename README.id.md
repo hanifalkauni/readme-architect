@@ -143,7 +143,7 @@ npx readme-architect --sync-agents
 ```
 
 #### Opsi 2: Integrasi via Model Context Protocol (MCP)
-Tambahkan ke konfigurasi MCP IDE Anda (`~/.gemini/config/mcp_config.json` atau Claude Desktop):
+Tambahkan ke konfigurasi MCP IDE Anda (`~/.gemini/config/mcp_config.json`, `.kiro/settings/mcp.json`, atau Claude Desktop):
 ```json
 {
   "mcpServers": {
@@ -192,6 +192,17 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 
 - **Windsurf**: Salin `adapters/windsurf/windsurfrules.md` menjadi `.windsurfrules`.
 - **GitHub Copilot**: Salin `adapters/copilot/copilot-instructions.md` ke `.github/copilot-instructions.md`.
+</details>
+
+<details>
+<summary><b>⚡ Kiro AI IDE (kiro.dev)</b></summary>
+
+Salin steering file dan konfigurasi MCP ke direktori proyek Kiro:
+```bash
+mkdir -p .kiro/steering .kiro/settings
+cp adapters/kiro/readme-architect.md .kiro/steering/readme-architect.md
+cp adapters/kiro/mcp.json .kiro/settings/mcp.json
+```
 </details>
 
 ---
