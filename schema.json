@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReadmeArchitectConfig",
+  "description": "Konfigurasi resmi untuk README-Architect AI Skill Agent",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI ke skema JSON untuk IntelliSense & autocomplete"
+    },
+    "writingStyle": {
+      "type": "string",
+      "description": "Gaya penulisan dan persona nada bahasa README yang dihasilkan",
+      "enum": [
+        "showcase",
+        "developer-centric",
+        "product-oriented",
+        "devops-infra",
+        "api-first",
+        "security-first",
+        "cli-tool",
+        "storytelling",
+        "minimalist",
+        "enterprise",
+        "tutorial",
+        "academic"
+      ],
+      "default": "showcase"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Palet warna kurasi untuk Shields.io badges dan diagram Mermaid",
+      "enum": [
+        "tokyo-night",
+        "catppuccin",
+        "nord",
+        "minimalist"
+      ],
+      "default": "tokyo-night"
+    },
+    "language": {
+      "type": "string",
+      "description": "Bahasa output dokumentasi (default: id)",
+      "enum": ["id", "en"],
+      "default": "id"
+    },
+    "standards": {
+      "type": "object",
+      "description": "Kepatuhan terhadap standar internasional dan aksesibilitas",
+      "properties": {
+        "a11yCompliance": {
+          "type": "string",
+          "description": "Standar aksesibilitas untuk alt-text dan screen readers",
+          "enum": ["wcag22-aa", "none"],
+          "default": "wcag22-aa"
+        },
+        "spdxLicense": {
+          "type": "string",
+          "description": "Identifier lisensi mesin standar SPDX 3.0 (misal: MIT, Apache-2.0, GPL-3.0-only)",
+          "default": "MIT"
+        },
+        "targetRegistry": {
+          "type": "string",
+          "description": "Target registry tujuan untuk graceful degradation",
+          "enum": ["github", "universal", "pypi", "npm"],
+          "default": "github"
+        },
+        "generateCitationCff": {
+          "type": "boolean",
+          "description": "Otomatis menghasilkan file fisik CITATION.cff",
+          "default": false
+        },
+        "enableAllContributors": {
+          "type": "boolean",
+          "description": "Mengaktifkan seksi tabel matriks All-Contributors",
+          "default": false
+        },
+        "openSsfBadges": {
+          "type": "boolean",
+          "description": "Menampilkan badge kebijakan keamanan OpenSSF",
+          "default": true
+        }
+      }
+    },
+    "badges": {
+      "type": "object",
+      "description": "Pengaturan badge Shields.io di Hero Header",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": ["for-the-badge", "flat", "flat-square", "plastic"],
+          "default": "for-the-badge"
+        },
+        "showBuild": { "type": "boolean", "default": true },
+        "showCoverage": { "type": "boolean", "default": true },
+        "showLicense": { "type": "boolean", "default": true },
+        "custom": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "description": "Toggle seksi dokumen yang ingin diikutsertakan",
+      "properties": {
+        "hero": { "type": "boolean", "default": true },
+        "architectureDiagram": { "type": "boolean", "default": true },
+        "featureGrid": { "type": "boolean", "default": true },
+        "directoryTree": { "type": "boolean", "default": true },
+        "techStackMatrix": { "type": "boolean", "default": true },
+        "envVariablesTable": { "type": "boolean", "default": true },
+        "apiReference": { "type": "boolean", "default": true },
+        "troubleshooting": { "type": "boolean", "default": true },
+        "allContributors": { "type": "boolean", "default": false }
+      }
+    },
+    "beautify": {
+      "type": "object",
+      "description": "Opsi keindahan visual dan formatting",
+      "properties": {
+        "centerHeader": { "type": "boolean", "default": true },
+        "enableCollapsible": { "type": "boolean", "default": true },
+        "directoryDepth": { "type": "integer", "default": 3 },
+        "dualThemeBanner": { "type": "boolean", "default": true }
+      }
+    }
+  },
+  "additionalProperties": false
+}
