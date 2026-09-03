@@ -8,7 +8,7 @@
     "spdxLicense": "MIT",
     "targetRegistry": "github",
     "generateCitationCff": false,
-    "enableAllContributors": true,
+    "enableAllContributors": false,
     "openSsfBadges": true
   },
   "badges": {
@@ -27,7 +27,7 @@
     "envVariablesTable": true,
     "apiReference": true,
     "troubleshooting": true,
-    "allContributors": true
+    "allContributors": false
   },
   "beautify": {
     "centerHeader": true,

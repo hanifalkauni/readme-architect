@@ -12,6 +12,7 @@ export class ReadmeArchitect {
   constructor(options = {}) {
     this.rootDir = path.resolve(options.rootDir || process.cwd());
     const config = this.loadConfig();
+    this.config = config;
 
     this.style = options.style || config.writingStyle || 'showcase';
     this.theme = options.theme || config.theme || 'tokyo-night';
@@ -259,8 +260,10 @@ ${installCmd}
 \`\`\``;
     const troubleshootingContent = `## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible('Lihat Pertanyaan & Solusi Masalah Umum', faqDetails)}`;
 
-    // 13. Contributors & Community
-    const contributorsContent = this.standardsEngine.generateAllContributorsTable();
+    // 13. Contributors & Community (Opsional)
+    const showContributors = (this.config.sections?.allContributors !== false) &&
+                             (this.config.standards?.enableAllContributors !== false);
+    const contributorsContent = showContributors ? this.standardsEngine.generateAllContributorsTable() : '';
 
     // 14. Academic Citation (if academic style)
     let citationContent = '';
@@ -290,7 +293,7 @@ ${installCmd}
       testing: testingContent,
       deployment: deployContent,
       troubleshooting: troubleshootingContent,
-      contributors: contributorsContent,
+      ...(showContributors ? { contributors: contributorsContent } : {}),
       license: footerContent
     };
 

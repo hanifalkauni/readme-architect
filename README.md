@@ -276,20 +276,6 @@ npm install
 </details>
 <!-- readme-architect:end(troubleshooting) -->
 
----
-
-<!-- readme-architect:start(contributors) -->
-## 👥 Kontributor (All-Contributors Standard)
-
-Terima kasih kepada seluruh kontributor yang telah membangun proyek ini:
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars.githubusercontent.com/u/1?v=4" width="60px;" alt="Core Team"/><br /><sub><b>Core Team</b></sub>](#)<br />💻 📖 💡 | [<img src="https://avatars.githubusercontent.com/u/2?v=4" width="60px;" alt="Community Helpers"/><br /><sub><b>Community Helpers</b></sub>](#)<br />🎨 🐛 🔍 |
-| :---: | :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-Proyek ini mengikuti spesifikasi resmi [All Contributors](https://all-contributors.js.org/).
-<!-- readme-architect:end(contributors) -->
 
 ---
 
