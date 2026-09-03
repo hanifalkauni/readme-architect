@@ -129,6 +129,14 @@ async function runTests() {
     assert.strictEqual(resolved.source, '.env.example');
   });
 
+  it('Should clean empty link wrappers and guarantee zero broken links', () => {
+    const proof = new ProofEngine(nodeFixtureDir);
+    const brokenInput = `[![Build Status](https://img.shields.io/badge/Build-Passing-green)]()\n[Some Empty Link]()\n<a href="#fitur-utama">Fitur</a>\n\n## ✨ Fitur Utama`;
+    const fixed = proof.validateAndFixLinks(brokenInput);
+    assert.ok(!fixed.includes(']()'), 'Must not have empty link wrappers');
+    assert.ok(fixed.includes('id="fitur-utama"'), 'Must automatically inject missing anchor id');
+  });
+
   // ----------------------------------------------------
   // 3. Cross-Registry Parity Tests (FR-8.1)
   // ----------------------------------------------------

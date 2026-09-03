@@ -209,4 +209,63 @@ export class ProofEngine {
       default: this.sanitizeSecret(v.default, v.name)
     }));
   }
+
+  /**
+   * Link Integrity Engine:
+   * Menjamin tidak ada tautan rusak di README:
+   * 1. Membersihkan link kosong `[text]()` atau `[![alt](badge)]()`
+   * 2. Memastikan tautan file relatif (seperti SECURITY.md) ada di repositori; jika belum ada, otomatis dibuatkan atau di-fallback ke teks biasa
+   * 3. Memastikan semua tautan anchor internal (#fitur-utama, dll.) memiliki target ID yang cocok di dokumen
+   */
+  validateAndFixLinks(markdownContent, meta = {}) {
+    let cleaned = markdownContent;
+
+    // 1. Bersihkan empty link wrapper: [![alt](img)]() -> ![alt](img)
+    cleaned = cleaned.replace(/\[(\!\[[^\]]*\]\([^)]+\))\]\(\s*\)/g, '$1');
+    cleaned = cleaned.replace(/\[([^\]]+)\]\(\s*\)/g, '$1');
+
+    // 2. Validasi tautan file lokal (seperti [SECURITY.md](SECURITY.md))
+    const fileLinkRegex = /\[([^\]]+)\]\((?!https?:\/\/|#|mailto:)([^)#\s]+)\)/g;
+    cleaned = cleaned.replace(fileLinkRegex, (match, linkText, filePath) => {
+      const fullPath = path.join(this.rootDir, filePath);
+      if (fs.existsSync(fullPath)) {
+        return match; // File fisik ada, link valid
+      }
+
+      // Jika file adalah SECURITY.md, buatkan otomatis agar tidak 404
+      if (filePath.toLowerCase() === 'security.md') {
+        try {
+          fs.writeFileSync(
+            fullPath,
+            `# Security Policy\n\nUntuk melaporkan celah kerentanan secara privat, silakan hubungi maintainer proyek ini.\n`,
+            'utf8'
+          );
+          return match;
+        } catch {
+          return linkText;
+        }
+      }
+
+      // Jika file lain tidak ada, hilangkan link agar tidak broken
+      return linkText;
+    });
+
+    // 3. Pastikan seluruh anchor di Hero Nav memiliki penanda ID di dokumen
+    const requiredAnchors = [
+      { id: 'fitur-utama', targetHeading: '## ✨ Fitur' },
+      { id: 'arsitektur-sistem', targetHeading: '## 🏗️ Arsitektur' },
+      { id: 'panduan-instalasi', targetHeading: '## ⚙️ Panduan' },
+      { id: 'referensi-api', targetHeading: '## 📡 Referensi' },
+      { id: 'troubleshooting', targetHeading: '## ❓ Troubleshooting' }
+    ];
+
+    for (const anchor of requiredAnchors) {
+      if (cleaned.includes(`href="#${anchor.id}"`) && !cleaned.includes(`id="${anchor.id}"`)) {
+        const regex = new RegExp(`(${anchor.targetHeading}[^\\n]*)`, 'i');
+        cleaned = cleaned.replace(regex, `<span id="${anchor.id}"></span>\n$1`);
+      }
+    }
+
+    return cleaned;
+  }
 }

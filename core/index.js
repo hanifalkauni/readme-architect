@@ -300,7 +300,10 @@ ${installCmd}
     // Gabungkan dengan DeltaMerger
     const merged = this.merger.merge(existingMarkdown, managedSections);
 
+    // Pastikan integritas seluruh tautan (Zero-Broken-Link Engine)
+    const fixedLinks = this.proofEngine.validateAndFixLinks(merged, scanData.project_meta);
+
     // Terapkan Cross-Registry Graceful Degradation
-    return this.registryAdapter.adapt(merged);
+    return this.registryAdapter.adapt(fixedLinks);
   }
 }

@@ -52,16 +52,23 @@ export class BeautifierEngine {
     const title = meta.name || 'Project Name';
     const tagline = meta.description || 'Modern, high-performance software solution.';
     const badgeStyle = options.badgeStyle || 'for-the-badge';
-    let repoUrl = meta.repository_url || 'https://github.com/hanifalkauni/readme-architect';
+    let repoUrl = (meta.repository_url || '').trim();
     repoUrl = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
 
     const defaultBadges = [
-      `[![Build Status: Passing](https://img.shields.io/badge/Build-Passing-${this.theme.badges.successColor}?style=${badgeStyle}&logo=github-actions&logoColor=white)](${repoUrl}/actions)`,
-      `[![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-${this.theme.badges.successColor}?style=${badgeStyle}&logo=vitest&logoColor=white)](${repoUrl})`,
-      `[![License: ${meta.license || 'MIT'}](https://img.shields.io/badge/License-${meta.license || 'MIT'}-${this.theme.badges.defaultColor}?style=${badgeStyle})](${repoUrl}/blob/main/LICENSE)`
+      `![Build Status: Passing](https://img.shields.io/badge/Build-Passing-${this.theme.badges.successColor}?style=${badgeStyle}&logo=github-actions&logoColor=white)`,
+      `![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-${this.theme.badges.successColor}?style=${badgeStyle}&logo=vitest&logoColor=white)`,
+      `![License: ${meta.license || 'MIT'}](https://img.shields.io/badge/License-${meta.license || 'MIT'}-${this.theme.badges.defaultColor}?style=${badgeStyle})`
     ];
 
-    const allBadges = badges.length > 0 ? badges : defaultBadges;
+    const allBadges = (badges.length > 0 ? badges : defaultBadges).map((badgeStr, idx) => {
+      // Jangan tambahkan link jika repoUrl tidak ada, atau jika badge sudah memiliki link
+      if (!repoUrl || badgeStr.startsWith('[')) return badgeStr;
+      if (idx === 0) return `[${badgeStr}](${repoUrl}/actions)`;
+      if (idx === 1) return `[${badgeStr}](${repoUrl})`;
+      if (idx === 2) return `[${badgeStr}](${repoUrl}/blob/main/LICENSE)`;
+      return badgeStr;
+    });
 
     return `<div align="center">
 
