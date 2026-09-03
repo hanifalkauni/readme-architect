@@ -5,16 +5,16 @@
 
 > **Universal AI Skill Agent for Automated, Accurate, Comprehensive & Visually Stunning README Generation**
 
-[![Build Status: Passing](https://img.shields.io/badge/Build-Passing-9ece6a?style=for-the-badge&logo=github-actions&logoColor=white)]()
-[![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-9ece6a?style=for-the-badge&logo=vitest&logoColor=white)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-7aa2f7?style=for-the-badge)]()
+[![Build Status: Passing](https://img.shields.io/badge/Build-Passing-9ece6a?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/hanifalkauni/readme-architect/actions)
+[![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-9ece6a?style=for-the-badge&logo=vitest&logoColor=white)](https://github.com/hanifalkauni/readme-architect)
+[![License: MIT](https://img.shields.io/badge/License-MIT-7aa2f7?style=for-the-badge)](https://github.com/hanifalkauni/readme-architect/blob/main/LICENSE)
 
 <p align="center">
-  <a href="#-fitur-unggulan">Fitur Utama</a> •
-  <a href="#-arsitektur-sistem">Arsitektur</a> •
-  <a href="#-panduan-setup-lokal">Quick Start</a> •
-  <a href="#-referensi-api">API Docs</a> •
-  <a href="#-troubleshooting--faq">FAQ</a>
+  <a href="#fitur-utama">Fitur Utama</a> •
+  <a href="#arsitektur-sistem">Arsitektur</a> •
+  <a href="#panduan-instalasi">Quick Start</a> •
+  <a href="#referensi-api">API Docs</a> •
+  <a href="#troubleshooting">FAQ</a>
 </p>
 
 ---
@@ -32,6 +32,7 @@
 ---
 
 <!-- readme-architect:start(features) -->
+<span id="fitur-utama"></span>
 ## ✨ Fitur Utama
 
 | Fitur | Kategori | Deskripsi Teknis | Status |
@@ -44,6 +45,7 @@
 ---
 
 <!-- readme-architect:start(architecture) -->
+<span id="arsitektur-sistem"></span>
 ## 🏗️ Arsitektur Sistem
 
 ```mermaid
@@ -93,6 +95,7 @@ flowchart TD
 ├── 📄 PRD.md
 ├── ⚙️ readme-architect.config.json
 ├── 📄 README.md
+├── 📄 SECURITY.md
 ├── 🧪 tests
 │   ├── 📁 fixtures
 │   │   ├── 📁 sample-go
@@ -123,6 +126,7 @@ flowchart TD
 ---
 
 <!-- readme-architect:start(setup) -->
+<span id="panduan-instalasi"></span>
 ## ⚙️ Panduan Instalasi & Penggunaan
 
 ### 🚀 Cara Pasang & Integrasi Skill ke AI Agent
@@ -219,6 +223,7 @@ Tidak ada variabel lingkungan yang diperlukan.
 ---
 
 <!-- readme-architect:start(api) -->
+<span id="referensi-api"></span>
 ## 📡 Referensi API
 
 <details>
@@ -231,7 +236,7 @@ Tidak ada variabel lingkungan yang diperlukan.
 ```json
 {
   "status": "healthy",
-  "timestamp": "2026-09-03T04:48:38.581Z"
+  "timestamp": "2026-09-03T05:15:12.594Z"
 }
 ```
 </details>
@@ -260,6 +265,7 @@ docker compose up -d --build
 ---
 
 <!-- readme-architect:start(troubleshooting) -->
+<span id="troubleshooting"></span>
 ## ❓ Troubleshooting & FAQ
 
 <details>

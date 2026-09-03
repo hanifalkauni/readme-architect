@@ -52,11 +52,13 @@ export class BeautifierEngine {
     const title = meta.name || 'Project Name';
     const tagline = meta.description || 'Modern, high-performance software solution.';
     const badgeStyle = options.badgeStyle || 'for-the-badge';
+    let repoUrl = meta.repository_url || 'https://github.com/hanifalkauni/readme-architect';
+    repoUrl = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
 
     const defaultBadges = [
-      `[![Build Status: Passing](https://img.shields.io/badge/Build-Passing-${this.theme.badges.successColor}?style=${badgeStyle}&logo=github-actions&logoColor=white)]()`,
-      `[![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-${this.theme.badges.successColor}?style=${badgeStyle}&logo=vitest&logoColor=white)]()`,
-      `[![License: ${meta.license || 'MIT'}](https://img.shields.io/badge/License-${meta.license || 'MIT'}-${this.theme.badges.defaultColor}?style=${badgeStyle})]()`
+      `[![Build Status: Passing](https://img.shields.io/badge/Build-Passing-${this.theme.badges.successColor}?style=${badgeStyle}&logo=github-actions&logoColor=white)](${repoUrl}/actions)`,
+      `[![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-${this.theme.badges.successColor}?style=${badgeStyle}&logo=vitest&logoColor=white)](${repoUrl})`,
+      `[![License: ${meta.license || 'MIT'}](https://img.shields.io/badge/License-${meta.license || 'MIT'}-${this.theme.badges.defaultColor}?style=${badgeStyle})](${repoUrl}/blob/main/LICENSE)`
     ];
 
     const allBadges = badges.length > 0 ? badges : defaultBadges;
@@ -70,11 +72,11 @@ export class BeautifierEngine {
 ${allBadges.join('\n')}
 
 <p align="center">
-  <a href="#-fitur-unggulan">Fitur Utama</a> •
-  <a href="#-arsitektur-sistem">Arsitektur</a> •
-  <a href="#-panduan-setup-lokal">Quick Start</a> •
-  <a href="#-referensi-api">API Docs</a> •
-  <a href="#-troubleshooting--faq">FAQ</a>
+  <a href="#fitur-utama">Fitur Utama</a> •
+  <a href="#arsitektur-sistem">Arsitektur</a> •
+  <a href="#panduan-instalasi">Quick Start</a> •
+  <a href="#referensi-api">API Docs</a> •
+  <a href="#troubleshooting">FAQ</a>
 </p>
 
 ---

@@ -97,7 +97,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     const isApi = this.style === 'api-first';
 
     if (isProduct) {
-      return `## ✨ Fitur & Manfaat Produk
+      return `<span id="fitur-utama"></span>\n## ✨ Fitur & Manfaat Produk
 
 | Masalah yang Dihadapi | Solusi yang Diberikan | Manfaat Nyata bagi Tim | Status |
 | :--- | :--- | :--- | :--- |
@@ -107,7 +107,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     }
 
     if (isSecurity) {
-      return `## ✨ Fitur Keamanan & Mitigasi Risiko
+      return `<span id="fitur-utama"></span>\n## ✨ Fitur Keamanan & Mitigasi Risiko
 
 | Vektor Keamanan | Kontrol Mitigasi Teknis | Standar Kepatuhan | Status |
 | :--- | :--- | :--- | :--- |
@@ -117,7 +117,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     }
 
     if (isDevOps) {
-      return `## ✨ Fitur Infrastruktur & Keandalan
+      return `<span id="fitur-utama"></span>\n## ✨ Fitur Infrastruktur & Keandalan
 
 | Komponen Operasional | Mekanisme Implementasi | SLA / Metrik Target | Status |
 | :--- | :--- | :--- | :--- |
@@ -127,7 +127,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     }
 
     if (isCli) {
-      return `## ✨ Kemampuan CLI & Fitur Terminal
+      return `<span id="fitur-utama"></span>\n## ✨ Kemampuan CLI & Fitur Terminal
 
 | Fitur | Syntax / Flag | Deskripsi Fungsional | Status |
 | :--- | :--- | :--- | :--- |
@@ -137,7 +137,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     }
 
     if (isApi) {
-      return `## ✨ Karakteristik Arsitektur API
+      return `<span id="fitur-utama"></span>\n## ✨ Karakteristik Arsitektur API
 
 | Karakteristik | Spesifikasi | Keterangan | Status |
 | :--- | :--- | :--- | :--- |
@@ -147,7 +147,7 @@ Repositori ini menyertakan implementasi referensi eksperimental untuk **${name}*
     }
 
     // Default & Developer-Centric / Showcase
-    return `## ✨ Fitur Utama
+    return `<span id="fitur-utama"></span>\n## ✨ Fitur Utama
 
 | Fitur | Kategori | Deskripsi Teknis | Status |
 | :--- | :--- | :--- | :--- |

@@ -76,7 +76,7 @@ export class ReadmeArchitect {
       mermaidRaw,
       'Alur kerja: Client melakukan request ke Ingress Gateway, diverifikasi oleh Auth Service, diteruskan ke Core Engine, lalu berinteraksi dengan Database dan Cache.'
     );
-    const architectureContent = `## 🏗️ Arsitektur Sistem\n\n${mermaidA11y}`;
+    const architectureContent = `<span id="arsitektur-sistem"></span>\n## 🏗️ Arsitektur Sistem\n\n${mermaidA11y}`;
 
     // 5. Directory Tree & Monorepo Packages
     const treeRaw = this.beautifier.formatDirectoryTree(scanData.directory_tree);
@@ -181,7 +181,7 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 `;
     }
 
-    const quickStartContent = `## ⚙️ Panduan Instalasi & Penggunaan
+    const quickStartContent = `<span id="panduan-instalasi"></span>\n## ⚙️ Panduan Instalasi & Penggunaan
 ${skillInstallBlock}
 ### 🛠️ Pengembangan Lokal & Kontribusi
 
@@ -230,7 +230,7 @@ ${rows}`;
   "timestamp": "${new Date().toISOString()}"
 }
 \`\`\``;
-      usageContent = `## 📡 Referensi API\n\n${this.beautifier.formatCollapsible('Lihat Spesifikasi Endpoint Utama', apiDetails)}`;
+      usageContent = `<span id="referensi-api"></span>\n## 📡 Referensi API\n\n${this.beautifier.formatCollapsible('Lihat Spesifikasi Endpoint Utama', apiDetails)}`;
     }
 
     // 10. Testing
@@ -258,7 +258,7 @@ Bersihkan cache package manager lalu jalankan ulang:
 \`\`\`bash
 ${installCmd}
 \`\`\``;
-    const troubleshootingContent = `## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible('Lihat Pertanyaan & Solusi Masalah Umum', faqDetails)}`;
+    const troubleshootingContent = `<span id="troubleshooting"></span>\n## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible('Lihat Pertanyaan & Solusi Masalah Umum', faqDetails)}`;
 
     // 13. Contributors & Community (Opsional)
     const showContributors = (this.config.sections?.allContributors !== false) &&
