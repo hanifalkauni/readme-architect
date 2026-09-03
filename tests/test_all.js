@@ -180,7 +180,7 @@ async function runTests() {
     const engine = new StyleEngine('academic');
     const bibtex = engine.renderAcademicCitation({ name: 'DeepModel', repository_url: 'https://github.com/org/repo' });
     assert.ok(bibtex.includes('@software{deepmodel'));
-    assert.ok(bibtex.includes('Sitasi Akademik'));
+    assert.ok(bibtex.includes('Citation'));
   });
 
   // ----------------------------------------------------
@@ -197,7 +197,7 @@ async function runTests() {
   it('Should append textual fallback below Mermaid diagrams for screen readers', () => {
     const std = new StandardsEngine();
     const mermaidA11y = std.formatMermaidWithA11y('flowchart TD\nA-->B', 'Alur dari A ke B');
-    assert.ok(mermaidA11y.includes('Ringkasan Aksesibilitas Alur'));
+    assert.ok(mermaidA11y.includes('Accessibility Summary') || mermaidA11y.includes('Ringkasan Aksesibilitas Alur'));
     assert.ok(mermaidA11y.includes('Alur dari A ke B'));
   });
 
@@ -282,7 +282,7 @@ Support my open source work on Patreon!
     });
 
     const readme = await architect.generate();
-    assert.ok(readme.includes('## 📚 Sitasi Akademik'), 'Missing Academic Citation Block');
+    assert.ok(readme.includes('Citation'), 'Missing Academic Citation Block');
     assert.ok(readme.includes('> **Important:**'), 'Missing Graceful Degradation on Universal Registry');
 
     const cffPath = path.join(academicTestDir, 'CITATION.cff');
@@ -290,6 +290,34 @@ Support my open source work on Patreon!
 
     // Cleanup generated fixture file
     if (fs.existsSync(cffPath)) fs.unlinkSync(cffPath);
+  });
+
+  await itAsync('Should support English default, Indonesian, and Bilingual modes', async () => {
+    const testDir = path.resolve('tests/fixtures/sample-node');
+
+    // 1. English (Default)
+    const architectEn = new ReadmeArchitect({ rootDir: testDir, language: 'en' });
+    const readmeEn = await architectEn.generate();
+    assert.ok(readmeEn.includes('## 🌟 Overview'), 'English README must have Overview');
+    assert.ok(readmeEn.includes('## ✨ Key Features'), 'English README must have Key Features');
+
+    // 2. Indonesian ('id')
+    const architectId = new ReadmeArchitect({ rootDir: testDir, language: 'id' });
+    const readmeId = await architectId.generate();
+    assert.ok(readmeId.includes('## 🌟 Gambaran Umum'), 'Indonesian README must have Gambaran Umum');
+    assert.ok(readmeId.includes('## ✨ Fitur Utama'), 'Indonesian README must have Fitur Utama');
+
+    // 3. Bilingual ('bilingual')
+    const architectBi = new ReadmeArchitect({ rootDir: testDir, language: 'bilingual' });
+    const readmeBi = await architectBi.generate();
+    assert.ok(readmeBi.includes('Bahasa Indonesia'), 'Bilingual EN README must have language switcher');
+    const idPath = path.join(testDir, 'README.id.md');
+    assert.ok(fs.existsSync(idPath), 'Bilingual mode must create README.id.md on disk');
+    const idFileContent = fs.readFileSync(idPath, 'utf8');
+    assert.ok(idFileContent.includes('## 🌟 Gambaran Umum'));
+
+    // Cleanup
+    if (fs.existsSync(idPath)) fs.unlinkSync(idPath);
   });
 
   // ----------------------------------------------------

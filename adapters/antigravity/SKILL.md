@@ -12,7 +12,8 @@ Skill ini menginstruksikan agent untuk memindai basis kode, memverifikasi perint
 
 ## Langkah Eksekusi Alur Kerja (6-Stage Pipeline):
 
-1. **Konfirmasi Gaya Penulisan & Tema**:
+1. **Konfirmasi Bahasa, Gaya Penulisan & Tema**:
+   - **Bahasa Output**: `en` (English, default), `id` (Bahasa Indonesia jika diminta pengguna), atau `bilingual` (otomatis menghasilkan `README.md` EN dan `README.id.md` ID dengan tombol pengalih bahasa).
    - Tentukan salah satu dari **12 Gaya Penulisan**:
      `showcase` (default), `developer-centric`, `product-oriented`, `devops-infra`,
      `api-first`, `security-first`, `cli-tool`, `storytelling`,

@@ -5,6 +5,8 @@
  * - CITATION.cff (Citation File Format)
  * - All-Contributors Specification
  * - OpenSSF Best Practices
+ *
+ * Mendukung multi-bahasa: 'en' (default) & 'id'
  */
 export class StandardsEngine {
   constructor(options = {}) {
@@ -23,23 +25,33 @@ export class StandardsEngine {
   /**
    * Menghasilkan teks naratif fallback untuk pengguna pembaca layar di bawah blok Mermaid
    */
-  formatMermaidWithA11y(mermaidCode, textualSummary) {
-    const summary = textualSummary && textualSummary.trim()
-      ? textualSummary.trim()
-      : 'Diagram arsitektur alur data dari client ke ingress gateway, diteruskan ke core logic dan database persistence layer.';
+  formatMermaidWithA11y(mermaidCode, textualSummary, lang = 'en') {
+    const isId = lang === 'id';
+    const defaultSummary = isId
+      ? 'Diagram arsitektur alur data dari client ke ingress gateway, diteruskan ke core logic dan database persistence layer.'
+      : 'Architectural flow diagram depicting requests from clients through ingress gateway to core processing and persistence layers.';
+    const summary = textualSummary && textualSummary.trim() ? textualSummary.trim() : defaultSummary;
+    const label = isId ? 'Ringkasan Aksesibilitas Alur' : 'Flow Accessibility Summary';
 
-    return `\`\`\`mermaid\n${mermaidCode.trim()}\n\`\`\`\n\n> **Ringkasan Aksesibilitas Alur**: ${summary}`;
+    return `\`\`\`mermaid\n${mermaidCode.trim()}\n\`\`\`\n\n> **${label}**: ${summary}`;
   }
 
   /**
    * Menghasilkan penanda lisensi mesin standar SPDX 3.0 dan pernyataan hak cipta FSFE REUSE
    */
-  formatSpdxLicense(licenseId = 'MIT', copyrightHolder = 'Core Contributors', year = new Date().getFullYear()) {
+  formatSpdxLicense(licenseId = 'MIT', copyrightHolder = 'Core Contributors', year = new Date().getFullYear(), lang = 'en') {
     const validLicense = licenseId || 'MIT';
+    const isId = lang === 'id';
+
+    const header = isId ? '## 📄 Lisensi & Hak Cipta' : '## 📄 License & Copyright';
+    const notice = isId
+      ? `Didistribusikan di bawah lisensi open source **${validLicense}**.`
+      : `Distributed under the open-source **${validLicense}** License.`;
+
     return {
       spdxIdentifier: `SPDX-License-Identifier: ${validLicense}`,
       copyrightNotice: `Copyright (c) ${year} ${copyrightHolder}. All rights reserved.`,
-      markdownBlock: `## 📄 Lisensi & Hak Cipta\nDidistribusikan di bawah lisensi open source **${validLicense}**.\n\n\`SPDX-License-Identifier: ${validLicense}\`  \n\`Copyright (c) ${year} ${copyrightHolder}. All rights reserved.\``
+      markdownBlock: `${header}\n${notice}\n\n\`SPDX-License-Identifier: ${validLicense}\`  \n\`Copyright (c) ${year} ${copyrightHolder}. All rights reserved.\``
     };
   }
 
@@ -68,7 +80,8 @@ license: "${meta.license || 'MIT'}"
   /**
    * Menghasilkan tabel matriks pengakuan kontributor All-Contributors standar
    */
-  generateAllContributorsTable(contributors = []) {
+  generateAllContributorsTable(contributors = [], lang = 'en') {
+    const isId = lang === 'id';
     const defaultContributors = [
       { name: 'Core Team', avatar: 'https://avatars.githubusercontent.com/u/1?v=4', profile: '#', contributions: ['💻', '📖', '💡'] },
       { name: 'Community Helpers', avatar: 'https://avatars.githubusercontent.com/u/2?v=4', profile: '#', contributions: ['🎨', '🐛', '🔍'] }
@@ -79,23 +92,36 @@ license: "${meta.license || 'MIT'}"
       `[<img src="${c.avatar}" width="60px;" alt="${c.name}"/><br /><sub><b>${c.name}</b></sub>](${c.profile})<br />${c.contributions.join(' ')}`
     );
 
-    return `## 👥 Kontributor (All-Contributors Standard)
+    const title = isId ? '## 👥 Kontributor (All-Contributors Standard)' : '## 👥 Contributors (All-Contributors Standard)';
+    const thanks = isId
+      ? 'Terima kasih kepada seluruh kontributor yang telah membangun proyek ini:'
+      : 'Special thanks to all contributors who have helped build this project:';
+    const specNotice = isId
+      ? 'Proyek ini mengikuti spesifikasi resmi [All Contributors](https://all-contributors.js.org/).'
+      : 'This project adheres to the official [All Contributors](https://all-contributors.js.org/) specification.';
 
-Terima kasih kepada seluruh kontributor yang telah membangun proyek ini:
+    return `${title}
+
+${thanks}
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 | ${cells.join(' | ')} |
 | ${cells.map(() => ':---:').join(' | ')} |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-Proyek ini mengikuti spesifikasi resmi [All Contributors](https://all-contributors.js.org/).`;
+${specNotice}`;
   }
 
   /**
    * Menghasilkan integrasi kebijakan keamanan OpenSSF & SECURITY.md
    */
-  formatSecurityPolicyBlock() {
-    return `## 🔒 Kebijakan Keamanan (Security)
+  formatSecurityPolicyBlock(lang = 'en') {
+    const isId = lang === 'id';
+    if (isId) {
+      return `## 🔒 Kebijakan Keamanan (Security)
 Keamanan adalah prioritas utama. Untuk melaporkan celah kerentanan secara privat, silakan baca panduan di [SECURITY.md](SECURITY.md).`;
+    }
+    return `## 🔒 Security Policy
+Security is our top priority. To responsibly report vulnerabilities, please refer to [SECURITY.md](SECURITY.md).`;
   }
 }

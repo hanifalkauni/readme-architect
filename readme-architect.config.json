@@ -2,7 +2,7 @@
   "$schema": "./schema.json",
   "writingStyle": "showcase",
   "theme": "tokyo-night",
-  "language": "id",
+  "language": "en",
   "standards": {
     "a11yCompliance": "wcag22-aa",
     "spdxLicense": "MIT",

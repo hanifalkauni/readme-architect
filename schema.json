@@ -40,9 +40,9 @@
     },
     "language": {
       "type": "string",
-      "description": "Bahasa output dokumentasi (default: id)",
-      "enum": ["id", "en"],
-      "default": "id"
+      "description": "Bahasa output dokumentasi (default: en)",
+      "enum": ["en", "id", "bilingual"],
+      "default": "en"
     },
     "standards": {
       "type": "object",

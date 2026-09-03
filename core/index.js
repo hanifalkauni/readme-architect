@@ -14,6 +14,7 @@ export class ReadmeArchitect {
     const config = this.loadConfig();
     this.config = config;
 
+    this.language = options.language || options.lang || config.language || 'en';
     this.style = options.style || config.writingStyle || 'showcase';
     this.theme = options.theme || config.theme || 'tokyo-night';
     this.registry = options.registry || (config.standards && config.standards.targetRegistry) || 'github';
@@ -21,7 +22,7 @@ export class ReadmeArchitect {
 
     this.scanner = new CodebaseScanner(this.rootDir);
     this.proofEngine = new ProofEngine(this.rootDir);
-    this.styleEngine = new StyleEngine(this.style);
+    this.styleEngine = new StyleEngine(this.style, this.language);
     this.standardsEngine = new StandardsEngine();
     this.beautifier = new BeautifierEngine(this.theme);
     this.merger = new DeltaMerger();
@@ -38,45 +39,31 @@ export class ReadmeArchitect {
     return {};
   }
 
-  async generate(existingMarkdown = '') {
-    const scanData = await this.scanner.scan();
-    const verifiedData = this.proofEngine.filterVerifiedScripts(
-      scanData.execution_scripts,
-      scanData.ecosystem
-    );
-    const resolvedPort = this.proofEngine.resolveServerPort(scanData.environment.variables);
-    const sanitizedEnvVars = this.proofEngine.sanitizeEnvVariables(scanData.environment.variables);
-
-    // Otomatis tulis CITATION.cff ke disk jika mode academic atau dikonfigurasi
-    if (this.style === 'academic' || this.generateCitation) {
-      const cffContent = this.standardsEngine.generateCitationCff(scanData.project_meta);
-      const cffPath = path.join(this.rootDir, 'CITATION.cff');
-      fs.writeFileSync(cffPath, cffContent, 'utf8');
-    }
+  buildSections(scanData, verifiedData, resolvedPort, sanitizedEnvVars, lang = 'en', options = {}) {
+    const isId = lang === 'id';
 
     // 1. Hero Header
     const heroContent = this.beautifier.generateHeroHeader(
       scanData.project_meta,
       [],
-      { badgeStyle: 'for-the-badge' }
+      { badgeStyle: 'for-the-badge', language: lang, switcher: options.switcher }
     );
 
     // 2. Overview
     const overviewContent = this.styleEngine.renderOverview(
       scanData.project_meta,
-      scanData.ecosystem
+      scanData.ecosystem,
+      lang
     );
 
     // 3. Features
-    const featuresContent = this.styleEngine.renderFeatures(scanData.ecosystem);
+    const featuresContent = this.styleEngine.renderFeatures(scanData.ecosystem, lang);
 
     // 4. Architecture & Diagram
     const mermaidRaw = this.beautifier.generateStyledMermaid();
-    const mermaidA11y = this.standardsEngine.formatMermaidWithA11y(
-      mermaidRaw,
-      'Alur kerja: Client melakukan request ke Ingress Gateway, diverifikasi oleh Auth Service, diteruskan ke Core Engine, lalu berinteraksi dengan Database dan Cache.'
-    );
-    const architectureContent = `<span id="arsitektur-sistem"></span>\n## 🏗️ Arsitektur Sistem\n\n${mermaidA11y}`;
+    const mermaidA11y = this.standardsEngine.formatMermaidWithA11y(mermaidRaw, '', lang);
+    const archTitle = isId ? 'Arsitektur Sistem' : 'System Architecture';
+    const architectureContent = `<span id="system-architecture"></span>\n<span id="arsitektur-sistem"></span>\n## 🏗️ ${archTitle}\n\n${mermaidA11y}`;
 
     // 5. Directory Tree & Monorepo Packages
     const treeRaw = this.beautifier.formatDirectoryTree(scanData.directory_tree);
@@ -86,37 +73,55 @@ export class ReadmeArchitect {
         `| \`${p.name}\` | \`${p.path}\` | \`${p.version}\` | ${p.description} |`
       ).join('\n');
 
-      monorepoBlock = `\n\n### 📦 Monorepo Workspaces & Packages
-| Package Name | Direktori Lokasi | Versi | Deskripsi Modul |
+      const monoTitle = isId ? 'Paket & Workspace Monorepo' : 'Monorepo Workspaces & Packages';
+      const colName = isId ? 'Nama Paket' : 'Package Name';
+      const colDir = isId ? 'Direktori Lokasi' : 'Directory Path';
+      const colVer = isId ? 'Versi' : 'Version';
+      const colDesc = isId ? 'Deskripsi Modul' : 'Module Description';
+      const filterNotice = isId ? 'Perintah Filter Workspace:' : 'Workspace Filter Command:';
+
+      monorepoBlock = `\n\n### 📦 ${monoTitle}
+| ${colName} | ${colDir} | ${colVer} | ${colDesc} |
 | :--- | :--- | :--- | :--- |
 ${pkgRows}
 
-**Perintah Filter Workspace:**
+**${filterNotice}**
 \`\`\`bash
 ${scanData.ecosystem.package_manager} --filter <package-name> dev
 \`\`\``;
     }
-    const directoryContent = `## 📂 Struktur Repositori\n\n\`\`\`text\n${treeRaw || '├── src/\n└── README.md'}\n\`\`\`${monorepoBlock}`;
+    const dirTitle = isId ? 'Struktur Repositori' : 'Repository Structure';
+    const directoryContent = `## 📂 ${dirTitle}\n\n\`\`\`text\n${treeRaw || '├── src/\n└── README.md'}\n\`\`\`${monorepoBlock}`;
 
     // 6. Tech Stack Matrix
-    const techRows = scanData.ecosystem.frameworks.map(f => `| **${f}** | Terverifikasi | Komponen arsitektur utama |`).join('\n');
+    const techRows = scanData.ecosystem.frameworks.map(f => {
+      const status = isId ? 'Terverifikasi' : 'Verified';
+      const role = isId ? 'Komponen arsitektur utama' : 'Core architecture component';
+      return `| **${f}** | ${status} | ${role} |`;
+    }).join('\n');
+
+    const techCol1 = isId ? 'Teknologi' : 'Technology';
+    const techCol2 = isId ? 'Status' : 'Status';
+    const techCol3 = isId ? 'Peran dalam Sistem' : 'Role in Architecture';
+    const primaryRole = isId ? 'Bahasa pemrograman utama' : 'Primary programming language';
+    const pmRole = isId ? 'Manajemen dependensi proyek' : 'Package & dependency management';
+
     const techStackContent = `## 🛠️ Tech Stack & Dependencies
 
-| Teknologi | Status | Peran dalam Sistem |
+| ${techCol1} | ${techCol2} | ${techCol3} |
 | :--- | :--- | :--- |
-| **${scanData.ecosystem.primary_language}** | Inti | Bahasa pemrograman utama |
-| **${scanData.ecosystem.package_manager}** | Resolver | Manajemen dependensi proyek |
+| **${scanData.ecosystem.primary_language}** | ${isId ? 'Inti' : 'Core'} | ${primaryRole} |
+| **${scanData.ecosystem.package_manager}** | Resolver | ${pmRole} |
 ${techRows}`;
 
     // 7. Quick Start & Setup
     const installCmd = verifiedData.verified.install || `${scanData.ecosystem.package_manager} install`;
-    const devCmd = verifiedData.verified.dev || `${scanData.ecosystem.package_manager} run dev`;
-
     const hasAdapters = fs.existsSync(path.join(this.rootDir, 'adapters'));
     let skillInstallBlock = '';
 
     if (hasAdapters) {
-      skillInstallBlock = `
+      if (isId) {
+        skillInstallBlock = `
 ### 🚀 Cara Pasang & Integrasi Skill ke AI Agent
 
 #### Opsi 1: Otomatis via CLI Sync (Rekomendasi)
@@ -179,47 +184,132 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 
 ---
 `;
+      } else {
+        skillInstallBlock = `
+### 🚀 Integrating Skills with AI Agents
+
+#### Option 1: Automatic via CLI Sync (Recommended)
+Run this command in any target project root to export all agent adapters automatically:
+\`\`\`bash
+npx github:hanifalkauni/readme-architect --sync-agents
+\`\`\`
+
+#### Option 2: Integration via Model Context Protocol (MCP)
+Add this to your IDE MCP configuration (\`~/.gemini/config/mcp_config.json\` or Claude Desktop):
+\`\`\`json
+{
+  "mcpServers": {
+    "readme-architect": {
+      "command": "npx",
+      "args": ["-y", "github:hanifalkauni/readme-architect", "--mcp"]
+    }
+  }
+}
+\`\`\`
+*(Or if running from a local clone, use command: \`"node"\` and args: \`["/path/to/readme-architect/bin/readme-architect.js", "--mcp"]\`)*
+
+#### Option 3: Manual Installation per AI Agent
+<details>
+<summary><b>🤖 Google Antigravity & Gemini CLI</b></summary>
+
+Copy adapter to local workspace skill directory:
+\`\`\`bash
+mkdir -p .agents/skills/readme-architect
+cp adapters/antigravity/SKILL.md .agents/skills/readme-architect/SKILL.md
+\`\`\`
+*Or install globally at:* \`~/.gemini/config/skills/readme-architect/SKILL.md\`.
+</details>
+
+<details>
+<summary><b>💻 Cursor IDE</b></summary>
+
+Copy rules to Cursor directory:
+\`\`\`bash
+mkdir -p .cursor/rules
+cp adapters/cursor/readme-architect.mdc .cursor/rules/readme-architect.mdc
+\`\`\`
+</details>
+
+<details>
+<summary><b>🧠 Anthropic Claude Code</b></summary>
+
+Copy instructions to repository root:
+\`\`\`bash
+cp adapters/claude/CLAUDE.md ./CLAUDE.md
+\`\`\`
+</details>
+
+<details>
+<summary><b>🏄 Windsurf Cascade & GitHub Copilot</b></summary>
+
+- **Windsurf**: Copy \`adapters/windsurf/windsurfrules.md\` to \`.windsurfrules\`.
+- **GitHub Copilot**: Copy \`adapters/copilot/copilot-instructions.md\` to \`.github/copilot-instructions.md\`.
+</details>
+
+---
+`;
+      }
     }
 
-    const quickStartContent = `<span id="panduan-instalasi"></span>\n## ⚙️ Panduan Instalasi & Penggunaan
+    const quickStartTitle = isId ? 'Panduan Instalasi & Penggunaan' : 'Installation & Usage Guide';
+    const localDevTitle = isId ? 'Pengembangan Lokal & Kontribusi' : 'Local Development & Contributing';
+    const reqNote = isId
+      ? `> [!IMPORTANT]\n> Pastikan sistem Anda telah terpasang runtime **${scanData.ecosystem.primary_language}** dan package manager **${scanData.ecosystem.package_manager}**.`
+      : `> [!IMPORTANT]\n> Ensure your environment has **${scanData.ecosystem.primary_language}** and **${scanData.ecosystem.package_manager}** installed.`;
+    const step1Title = isId ? 'Instalasi Dependensi' : 'Install Dependencies';
+    const step2Title = isId ? 'Menjalankan Aplikasi' : 'Run Application';
+    const step3Title = isId ? 'Build Produksi' : 'Production Build';
+    const portLabel = isId
+      ? `Aplikasi berjalan dan dapat diakses pada: \`http://localhost:${resolvedPort.port}\` *(Sumber: ${resolvedPort.source})*.`
+      : `Application is running and accessible at: \`http://localhost:${resolvedPort.port}\` *(Source: ${resolvedPort.source})*.`;
+
+    const quickStartContent = `<span id="quick-start"></span>\n<span id="panduan-instalasi"></span>\n## ⚙️ ${quickStartTitle}
 ${skillInstallBlock}
-### 🛠️ Pengembangan Lokal & Kontribusi
+### 🛠️ ${localDevTitle}
 
-> [!IMPORTANT]
-> Pastikan sistem Anda telah terpasang runtime **${scanData.ecosystem.primary_language}** dan package manager **${scanData.ecosystem.package_manager}**.
+${reqNote}
 
-#### 1. Instalasi Dependensi
+#### 1. ${step1Title}
 \`\`\`bash
 ${installCmd}
 \`\`\`
 
-#### 2. Menjalankan Aplikasi
+#### 2. ${step2Title}
 \`\`\`bash
 ${verifiedData.verified.dev || verifiedData.verified.start || `${scanData.ecosystem.package_manager} run dev`}
 \`\`\`
 ${verifiedData.verified.build ? `
-#### 3. Build Produksi
+#### 3. ${step3Title}
 \`\`\`bash
 ${verifiedData.verified.build}
 \`\`\`
-` : ''}Aplikasi berjalan dan dapat diakses pada: \`http://localhost:${resolvedPort.port}\` *(Sumber: ${resolvedPort.source})*.`;
+` : ''}${portLabel}`;
 
     // 8. Environment Variables Table (Sanitized)
-    let envTable = 'Tidak ada variabel lingkungan yang diperlukan.';
+    let envTable = isId ? 'Tidak ada variabel lingkungan yang diperlukan.' : 'No environment variables required. Pure zero-config execution.';
     if (sanitizedEnvVars.length > 0) {
+      const colVar = isId ? 'Variabel' : 'Variable';
+      const colType = isId ? 'Tipe Data' : 'Type';
+      const colReq = isId ? 'Wajib' : 'Required';
+      const colDef = isId ? 'Nilai Default' : 'Default Value';
+      const colDesc = isId ? 'Deskripsi' : 'Description';
+      const yesLabel = isId ? '**Ya**' : '**Yes**';
+      const noLabel = isId ? 'Tidak' : 'Optional';
+
       const rows = sanitizedEnvVars.map(v => 
-        `| \`${v.name}\` | ${v.type} | ${v.required ? '**Ya**' : 'Tidak'} | \`${v.default}\` | ${v.description} |`
+        `| \`${v.name}\` | ${v.type} | ${v.required ? yesLabel : noLabel} | \`${v.default}\` | ${v.description} |`
       ).join('\n');
-      envTable = `| Variabel | Tipe Data | Wajib | Nilai Default | Deskripsi |
+      envTable = `| ${colVar} | ${colType} | ${colReq} | ${colDef} | ${colDesc} |
 | :--- | :--- | :--- | :--- | :--- |
 ${rows}`;
     }
-    const envContent = `## 🔐 Konfigurasi Lingkungan (.env)\n\n${envTable}`;
+    const envTitle = isId ? 'Konfigurasi Lingkungan (.env)' : 'Environment Configuration (.env)';
+    const envContent = `## 🔐 ${envTitle}\n\n${envTable}`;
 
     // 9. API Reference / CLI Usage
     let usageContent = '';
     if (this.style === 'cli-tool') {
-      usageContent = this.styleEngine.renderCliUsage(scanData.project_meta.name);
+      usageContent = this.styleEngine.renderCliUsage(scanData.project_meta.name, lang);
     } else {
       const apiDetails = `### Health Check Endpoint
 \`GET /health\`
@@ -231,12 +321,15 @@ ${rows}`;
   "timestamp": "${new Date().toISOString()}"
 }
 \`\`\``;
-      usageContent = `<span id="referensi-api"></span>\n## 📡 Referensi API\n\n${this.beautifier.formatCollapsible('Lihat Spesifikasi Endpoint Utama', apiDetails)}`;
+      const apiTitle = isId ? 'Referensi API' : 'API Reference';
+      const apiSummary = isId ? 'Lihat Spesifikasi Endpoint Utama' : 'View Core Endpoint Specifications';
+      usageContent = `<span id="api-reference"></span>\n<span id="referensi-api"></span>\n## 📡 ${apiTitle}\n\n${this.beautifier.formatCollapsible(apiSummary, apiDetails)}`;
     }
 
     // 10. Testing
     const testCmd = verifiedData.verified.test || 'npm test';
-    const testingContent = `## 🧪 Pengujian (Testing)
+    const testTitle = isId ? 'Pengujian (Testing)' : 'Testing Suite';
+    const testingContent = `## 🧪 ${testTitle}
 
 \`\`\`bash
 ${testCmd}
@@ -244,44 +337,57 @@ ${testCmd}
 
     // 11. Deployment
     const deployCmd = verifiedData.verified.docker || 'docker compose up -d --build';
-    const deployContent = `## 🐳 Deployment & Kontainer
+    const deployTitle = isId ? 'Deployment & Kontainer' : 'Deployment & Containerization';
+    const deployContent = `## 🐳 ${deployTitle}
 
 \`\`\`bash
 ${deployCmd}
 \`\`\``;
 
     // 12. Troubleshooting & FAQ
-    const faqDetails = `#### 1. Error: Port ${resolvedPort.port} telah digunakan
+    const faqDetails = isId
+      ? `#### 1. Error: Port ${resolvedPort.port} telah digunakan
 Pastikan tidak ada proses lokal lain yang menggunakan port ini atau ubah nilai port pada file \`.env\`.
 
 #### 2. Dependensi Gagal Terpasang
 Bersihkan cache package manager lalu jalankan ulang:
 \`\`\`bash
 ${installCmd}
-\`\`\``;
-    const troubleshootingContent = `<span id="troubleshooting"></span>\n## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible('Lihat Pertanyaan & Solusi Masalah Umum', faqDetails)}`;
+\`\`\``
+      : `#### 1. Error: Port ${resolvedPort.port} is already in use
+Ensure no other local process is bound to this port or update the port value in your \`.env\` file.
 
-    // 13. Contributors & Community (Opt-in: hanya muncul jika diaktifkan secara eksplisit di config)
+#### 2. Dependencies Failed to Install
+Clean your package manager cache and re-run installation:
+\`\`\`bash
+${installCmd}
+\`\`\``;
+
+    const faqSummary = isId ? 'Lihat Pertanyaan & Solusi Masalah Umum' : 'View Common Questions & Solutions';
+    const troubleshootingContent = `<span id="troubleshooting"></span>\n## ❓ Troubleshooting & FAQ\n\n${this.beautifier.formatCollapsible(faqSummary, faqDetails)}`;
+
+    // 13. Contributors & Community (Opt-in)
     const showContributors = (this.config.sections?.allContributors === true) ||
                              (this.config.standards?.enableAllContributors === true);
-    const contributorsContent = showContributors ? this.standardsEngine.generateAllContributorsTable() : '';
+    const contributorsContent = showContributors ? this.standardsEngine.generateAllContributorsTable([], lang) : '';
 
     // 14. Academic Citation (if academic style)
     let citationContent = '';
     if (this.style === 'academic') {
-      citationContent = '\n\n---\n\n' + this.styleEngine.renderAcademicCitation(scanData.project_meta);
+      citationContent = '\n\n---\n\n' + this.styleEngine.renderAcademicCitation(scanData.project_meta, lang);
     }
 
     // 15. Security & License (SPDX)
-    const securityBlock = this.standardsEngine.formatSecurityPolicyBlock();
+    const securityBlock = this.standardsEngine.formatSecurityPolicyBlock(lang);
     const spdxBlock = this.standardsEngine.formatSpdxLicense(
       scanData.project_meta.license,
-      scanData.project_meta.name
+      scanData.project_meta.name,
+      new Date().getFullYear(),
+      lang
     ).markdownBlock;
     const footerContent = `${securityBlock}\n\n---\n\n${spdxBlock}${citationContent}`;
 
-    // Kumpulkan seluruh seksi yang dikelola
-    const managedSections = {
+    return {
       hero: heroContent,
       overview: overviewContent,
       features: featuresContent,
@@ -297,14 +403,52 @@ ${installCmd}
       ...(showContributors ? { contributors: contributorsContent } : {}),
       license: footerContent
     };
+  }
 
-    // Gabungkan dengan DeltaMerger
-    const merged = this.merger.merge(existingMarkdown, managedSections);
+  async generate(existingMarkdown = '', targetLang = null) {
+    const lang = targetLang || this.language;
+    const scanData = await this.scanner.scan();
+    const verifiedData = this.proofEngine.filterVerifiedScripts(
+      scanData.execution_scripts,
+      scanData.ecosystem
+    );
+    const resolvedPort = this.proofEngine.resolveServerPort(scanData.environment.variables);
+    const sanitizedEnvVars = this.proofEngine.sanitizeEnvVariables(scanData.environment.variables);
 
-    // Pastikan integritas seluruh tautan (Zero-Broken-Link Engine)
+    // Otomatis tulis CITATION.cff ke disk jika mode academic atau dikonfigurasi
+    if (this.style === 'academic' || this.generateCitation) {
+      const cffContent = this.standardsEngine.generateCitationCff(scanData.project_meta);
+      const cffPath = path.join(this.rootDir, 'CITATION.cff');
+      fs.writeFileSync(cffPath, cffContent, 'utf8');
+    }
+
+    if (lang === 'bilingual') {
+      // 1. Generate English (Primary README.md)
+      const enSwitcher = '<a href="README.id.md">Bahasa Indonesia</a> • <b>English</b>';
+      const enSections = this.buildSections(scanData, verifiedData, resolvedPort, sanitizedEnvVars, 'en', { switcher: enSwitcher });
+      const enMerged = this.merger.merge(existingMarkdown, enSections);
+      const enFixed = this.proofEngine.validateAndFixLinks(enMerged, scanData.project_meta);
+      const finalEn = this.registryAdapter.adapt(enFixed);
+
+      // 2. Generate Indonesian (Secondary README.id.md)
+      const idSwitcher = '<b>Bahasa Indonesia</b> • <a href="README.md">English</a>';
+      const idSections = this.buildSections(scanData, verifiedData, resolvedPort, sanitizedEnvVars, 'id', { switcher: idSwitcher });
+      const idMerged = this.merger.merge('', idSections);
+      const idFixed = this.proofEngine.validateAndFixLinks(idMerged, scanData.project_meta);
+      const finalId = this.registryAdapter.adapt(idFixed);
+
+      try {
+        const idPath = path.join(this.rootDir, 'README.id.md');
+        fs.writeFileSync(idPath, finalId, 'utf8');
+      } catch {}
+
+      return finalEn;
+    }
+
+    // Single language generation ('en' or 'id')
+    const sections = this.buildSections(scanData, verifiedData, resolvedPort, sanitizedEnvVars, lang);
+    const merged = this.merger.merge(existingMarkdown, sections);
     const fixedLinks = this.proofEngine.validateAndFixLinks(merged, scanData.project_meta);
-
-    // Terapkan Cross-Registry Graceful Degradation
     return this.registryAdapter.adapt(fixedLinks);
   }
 }

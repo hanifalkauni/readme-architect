@@ -49,8 +49,11 @@ export class BeautifierEngine {
    * Membuat Hero Header berpusat dengan tagline dan badges
    */
   generateHeroHeader(meta, badges = [], options = {}) {
+    const lang = options.language || 'en';
+    const isId = lang === 'id';
     const title = meta.name || 'Project Name';
-    const tagline = meta.description || 'Modern, high-performance software solution.';
+    const defaultTagline = isId ? 'Solusi perangkat lunak modern berkinerja tinggi.' : 'Modern, high-performance software solution.';
+    const tagline = meta.description || defaultTagline;
     const badgeStyle = options.badgeStyle || 'for-the-badge';
     let repoUrl = (meta.repository_url || '').trim();
     repoUrl = repoUrl.replace(/^git\+/, '').replace(/\.git$/, '');
@@ -70,7 +73,21 @@ export class BeautifierEngine {
       return badgeStr;
     });
 
-    return `<div align="center">
+    const switcherBlock = options.switcher ? `\n<p align="right">\n  ${options.switcher}\n</p>\n` : '';
+
+    const navLinks = isId
+      ? `<a href="#fitur-utama">Fitur Utama</a> •
+  <a href="#arsitektur-sistem">Arsitektur</a> •
+  <a href="#panduan-instalasi">Quick Start</a> •
+  <a href="#referensi-api">API Docs</a> •
+  <a href="#troubleshooting">FAQ</a>`
+      : `<a href="#key-features">Key Features</a> •
+  <a href="#system-architecture">Architecture</a> •
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#api-reference">API Docs</a> •
+  <a href="#troubleshooting">FAQ</a>`;
+
+    return `<div align="center">${switcherBlock}
 
 # 🚀 ${title}
 
@@ -79,11 +96,7 @@ export class BeautifierEngine {
 ${allBadges.join('\n')}
 
 <p align="center">
-  <a href="#fitur-utama">Fitur Utama</a> •
-  <a href="#arsitektur-sistem">Arsitektur</a> •
-  <a href="#panduan-instalasi">Quick Start</a> •
-  <a href="#referensi-api">API Docs</a> •
-  <a href="#troubleshooting">FAQ</a>
+  ${navLinks}
 </p>
 
 ---

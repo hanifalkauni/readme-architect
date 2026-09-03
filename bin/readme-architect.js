@@ -21,6 +21,7 @@ function parseArgs(args, config = {}) {
   const options = {
     style: config.writingStyle || 'showcase',
     theme: config.theme || 'tokyo-night',
+    language: config.language || 'en',
     output: 'README.md',
     registry: (config.standards && config.standards.targetRegistry) || 'github',
     mcp: false,
@@ -37,6 +38,7 @@ function parseArgs(args, config = {}) {
     else if (arg === '--sync-agents') options.syncAgents = true;
     else if (arg === '--style' && args[i + 1]) options.style = args[++i];
     else if (arg === '--theme' && args[i + 1]) options.theme = args[++i];
+    else if ((arg === '--lang' || arg === '--language') && args[i + 1]) options.language = args[++i];
     else if (arg === '--output' && args[i + 1]) options.output = args[++i];
     else if (arg === '--registry' && args[i + 1]) options.registry = args[++i];
   }
@@ -60,6 +62,8 @@ Opsi Tersedia:
                                enterprise, tutorial, academic
   --theme <nama>      Pilih tema visual (default: tokyo-night)
                       Pilihan: tokyo-night, catppuccin, nord, minimalist
+  --lang <kode>       Pilih bahasa dokumentasi (default: en)
+                      Pilihan: en (English), id (Indonesia), bilingual (EN & ID)
   --output <file>     Nama file output (default: README.md)
   --registry <target> Target registry rendering (default: github, opsi: universal, pypi, npm)
   --mcp               Jalankan sebagai Model Context Protocol (MCP) server
@@ -103,7 +107,10 @@ async function runAuditVerification(targetFile = 'README.md') {
 
   // 3. Diagram A11y
   const hasMermaid = content.includes('```mermaid');
-  const hasA11ySummary = content.includes('Ringkasan Aksesibilitas Alur') || !hasMermaid;
+  const hasA11ySummary = content.includes('Ringkasan Aksesibilitas Alur') ||
+                         content.includes('Accessibility Summary') ||
+                         content.includes('Accessibility Flow Summary') ||
+                         !hasMermaid;
   checks.push({
     title: 'Mermaid Diagram A11y Textual Fallback',
     passed: hasA11ySummary,
@@ -186,6 +193,7 @@ async function main() {
   }
 
   console.log(`\n🚀 [README-Architect] Memulai pembuatan dokumentasi...`);
+  console.log(`   Bahasa Output  : ${options.language}`);
   console.log(`   Gaya Penulisan : ${options.style}`);
   console.log(`   Tema Visual    : ${options.theme}`);
   console.log(`   File Target    : ${options.output}\n`);
@@ -194,7 +202,8 @@ async function main() {
     rootDir: process.cwd(),
     style: options.style,
     theme: options.theme,
-    registry: options.registry
+    registry: options.registry,
+    language: options.language
   });
 
   let existing = '';

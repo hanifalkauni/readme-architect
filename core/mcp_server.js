@@ -47,6 +47,12 @@ export class McpServer {
               type: 'string',
               enum: ['github', 'universal', 'pypi', 'npm'],
               default: 'github'
+            },
+            language: {
+              type: 'string',
+              enum: ['en', 'id', 'bilingual'],
+              default: 'en',
+              description: 'Output documentation language: "en" (English, default), "id" (Indonesian), or "bilingual"'
             }
           }
         }
@@ -169,7 +175,8 @@ export class McpServer {
         rootDir,
         style: args.writing_style || 'showcase',
         theme: args.theme || 'tokyo-night',
-        registry: args.target_registry || 'github'
+        registry: args.target_registry || 'github',
+        language: args.language || 'en'
       });
       return await architect.generate();
     }

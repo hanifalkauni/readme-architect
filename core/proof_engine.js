@@ -252,10 +252,14 @@ export class ProofEngine {
 
     // 3. Pastikan seluruh anchor di Hero Nav memiliki penanda ID di dokumen
     const requiredAnchors = [
-      { id: 'fitur-utama', targetHeading: '## ✨ Fitur' },
-      { id: 'arsitektur-sistem', targetHeading: '## 🏗️ Arsitektur' },
-      { id: 'panduan-instalasi', targetHeading: '## ⚙️ Panduan' },
-      { id: 'referensi-api', targetHeading: '## 📡 Referensi' },
+      { id: 'key-features', targetHeading: '## ✨ (Key Features|Features|Fitur)' },
+      { id: 'fitur-utama', targetHeading: '## ✨ (Key Features|Features|Fitur)' },
+      { id: 'system-architecture', targetHeading: '## 🏗️ (System Architecture|Architecture|Arsitektur)' },
+      { id: 'arsitektur-sistem', targetHeading: '## 🏗️ (System Architecture|Architecture|Arsitektur)' },
+      { id: 'quick-start', targetHeading: '## ⚙️ (Installation|Setup|Quick Start|Panduan)' },
+      { id: 'panduan-instalasi', targetHeading: '## ⚙️ (Installation|Setup|Quick Start|Panduan)' },
+      { id: 'api-reference', targetHeading: '## 📡 (API|Reference|Referensi)' },
+      { id: 'referensi-api', targetHeading: '## 📡 (API|Reference|Referensi)' },
       { id: 'troubleshooting', targetHeading: '## ❓ Troubleshooting' }
     ];
 
