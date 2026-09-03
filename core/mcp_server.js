@@ -112,18 +112,35 @@ export class McpServer {
   async handleMessage(req) {
     const { id, method, params } = req;
 
+    // JSON-RPC 2.0 Specification: Server MUST NOT reply to notifications (requests without id)
+    if (id === undefined || id === null || (typeof method === 'string' && method.startsWith('notifications/'))) {
+      return null;
+    }
+
     if (method === 'initialize') {
       return {
         jsonrpc: '2.0',
         id,
         result: {
-          protocolVersion: '2024-11-05',
-          capabilities: { tools: {} },
+          protocolVersion: params?.protocolVersion || '2024-11-05',
+          capabilities: {
+            tools: {
+              listChanged: false
+            }
+          },
           serverInfo: {
             name: 'readme-architect-mcp',
             version: '1.6.0'
           }
         }
+      };
+    }
+
+    if (method === 'ping') {
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {}
       };
     }
 
