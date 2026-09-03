@@ -101,7 +101,6 @@ flowchart TD
 │   └── 📄 style_engine.js
 ├── 📄 LICENSE
 ├── ⚙️ package.json
-├── 📄 PRD.md
 ├── ⚙️ readme-architect.config.json
 ├── 📄 README.md
 ├── 📄 README.id.md
