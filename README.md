@@ -1,6 +1,10 @@
 <!-- readme-architect:start(hero) -->
 <div align="center">
 
+<p align="right">
+  <a href="README.id.md">Bahasa Indonesia</a> • <b>English</b>
+</p>
+
 # 🚀 readme-architect
 
 > **Universal AI Skill Agent for Automated, Accurate, Comprehensive & Visually Stunning README Generation**
@@ -10,10 +14,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-7aa2f7?style=for-the-badge)](https://github.com/hanifalkauni/readme-architect/blob/main/LICENSE)
 
 <p align="center">
-  <a href="#fitur-utama">Fitur Utama</a> •
-  <a href="#arsitektur-sistem">Arsitektur</a> •
-  <a href="#panduan-instalasi">Quick Start</a> •
-  <a href="#referensi-api">API Docs</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#system-architecture">Architecture</a> •
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#api-reference">API Docs</a> •
   <a href="#troubleshooting">FAQ</a>
 </p>
 
@@ -25,46 +29,51 @@
 ---
 
 <!-- readme-architect:start(overview) -->
-## 🌟 Gambaran Umum
-**readme-architect** dibangun dengan fondasi arsitektur Clean Architecture berbasis **JavaScript**, mengisolasi business logic dari interface adapter dan transport layer. Mengedepankan *Developer Experience (DX)* yang optimal dengan type-safety ketat, dependency injection modular, serta performa eksekusi berlatensi rendah.
+## 🌟 Overview
+**readme-architect** is engineered on Clean Architecture principles powered by **JavaScript**, isolating core domain business logic from interface adapters and transport layers. It prioritizes optimal *Developer Experience (DX)* with zero external dependencies, rigorous type-safety, anti-hallucination command proofing, and low-latency execution.
 <!-- readme-architect:end(overview) -->
 
 ---
 
 <!-- readme-architect:start(features) -->
-<span id="fitur-utama"></span>
-## ✨ Fitur Utama
+<span id="key-features"></span>
+## ✨ Key Features
 
-| Fitur | Kategori | Deskripsi Teknis | Status |
+| Feature | Category | Technical Description | Status |
 | :--- | :--- | :--- | :--- |
-| **High-Throughput Ingestion** | Core Engine | Mampu menangani beban komputasi tinggi secara asinkron | ⚡ Aktif |
-| **Type-Safe Architecture** | Code Quality | Validasi skema ketat dengan penanganan error terpusat | 🔒 Aman |
-| **Modular Extensibility** | DX | Arsitektur plugin dan event hooks yang mudah diperluas | 🚀 Siap |
+| **Zero-Hallucination ProofEngine** | Core Engine | Strictly verifies terminal scripts against real physical manifests | ⚡ Active |
+| **Secret Sanitization** | Security | Automatic masking of AWS keys, JWTs, and API credentials via Shannon Entropy | 🔒 Secure |
+| **12 Writing Style Personas** | DX & Tone | Tailored documentation styles (Developer-Centric, Showcase, API-First, Academic, etc.) | 🚀 Ready |
+| **Standards & Accessibility** | Compliance | Enforces WCAG 2.2 AA alt-text, Mermaid screen-reader fallback, and SPDX 3.0 | 🌐 Verified |
+| **Model Context Protocol (MCP)** | AI Protocol | Native stdio JSON-RPC 2.0 server for Antigravity, Claude, Cursor, and Windsurf | 🤖 Ready |
 <!-- readme-architect:end(features) -->
 
 ---
 
 <!-- readme-architect:start(architecture) -->
-<span id="arsitektur-sistem"></span>
-## 🏗️ Arsitektur Sistem
+<span id="system-architecture"></span>
+## 🏗️ System Architecture
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#24283b', 'primaryTextColor': '#c0caf5', 'primaryBorderColor': '#7aa2f7', 'lineColor': '#7dcfff'}}}%%
 flowchart TD
-    Client["📱 Client (Web / Mobile)"] -->|HTTPS / WSS| Ingress["🌐 API Gateway & Rate Limiter"]
-    Ingress -->|Auth Verification| Auth["🔑 Auth Service"]
-    Ingress -->|Dispatched Request| Core["⚙️ Core Application Engine"]
-    Core -->|Read / Write Pool| DB[("🗄️ Database (Primary)")]
-    Core -->|Cache Hit / Stream| Cache[("⚡ Redis Cache")]
+    Client["📱 AI Agent / Developer CLI"] -->|JSON-RPC / CLI Flags| Runner["🌐 Executable Runner (bin)"]
+    Runner -->|Orchestration| Orchestrator["⚙️ ReadmeArchitect Core"]
+    Orchestrator -->|Inspect Manifests & Env| Scanner["🔍 CodebaseScanner"]
+    Orchestrator -->|Verify Scripts & Sanitize| Proof["🛡️ ProofEngine"]
+    Orchestrator -->|Format Aesthetic Blocks| Beautifier["🎨 BeautifierEngine"]
+    Orchestrator -->|Enforce WCAG & SPDX| Standards["🌐 StandardsEngine"]
+    Orchestrator -->|Smart Non-Destructive Update| Merger["🔄 DeltaMerger"]
+    Orchestrator -->|Cross-Platform Markdown| Registry["📄 RegistryAdapter"]
 ```
 
-> **Ringkasan Aksesibilitas Alur**: Alur kerja: Client melakukan request ke Ingress Gateway, diverifikasi oleh Auth Service, diteruskan ke Core Engine, lalu berinteraksi dengan Database dan Cache.
+> **Accessibility Flow Summary**: Workflow diagram: AI Agent / CLI initiates request to Runner, orchestrating Scanner, ProofEngine, Beautifier, Standards, DeltaMerger, and RegistryAdapter to generate accessible Markdown.
 <!-- readme-architect:end(architecture) -->
 
 ---
 
 <!-- readme-architect:start(directory) -->
-## 📂 Struktur Repositori
+## 📂 Repository Structure
 
 ```text
 ├── 📁 adapters
@@ -95,6 +104,7 @@ flowchart TD
 ├── 📄 PRD.md
 ├── ⚙️ readme-architect.config.json
 ├── 📄 README.md
+├── 📄 README.id.md
 ├── ⚙️ schema.json
 ├── 📄 SECURITY.md
 ├── 🧪 tests
@@ -117,29 +127,30 @@ flowchart TD
 <!-- readme-architect:start(techstack) -->
 ## 🛠️ Tech Stack & Dependencies
 
-| Teknologi | Status | Peran dalam Sistem |
+| Technology | Status | Role in Architecture |
 | :--- | :--- | :--- |
-| **JavaScript** | Inti | Bahasa pemrograman utama |
-| **npm** | Resolver | Manajemen dependensi proyek |
-| **JavaScript** | Terverifikasi | Komponen arsitektur utama |
+| **Node.js (ES Modules)** | Core | Native runtime environment (>= 18.0.0) |
+| **Zero Dependencies** | Verified | 100% pure standard library, 0 third-party packages |
+| **Model Context Protocol** | Interface | JSON-RPC 2.0 stdio specification |
+| **JSON Schema (Draft-07)** | Config | Complete IDE validation & IntelliSense autocomplete |
 <!-- readme-architect:end(techstack) -->
 
 ---
 
 <!-- readme-architect:start(setup) -->
-<span id="panduan-instalasi"></span>
-## ⚙️ Panduan Instalasi & Penggunaan
+<span id="quick-start"></span>
+## ⚙️ Installation & Usage Guide
 
-### 🚀 Cara Pasang & Integrasi Skill ke AI Agent
+### 🚀 Integrating Skills with AI Agents
 
-#### Opsi 1: Otomatis via CLI Sync (Rekomendasi)
-Jalankan perintah ini di root proyek target untuk memasang seluruh adapter secara otomatis:
+#### Option 1: Automatic via CLI Sync (Recommended)
+Run this command in any target project root to export all agent adapters automatically:
 ```bash
-npx readme-architect --sync-agents
+npx github:hanifalkauni/readme-architect --sync-agents
 ```
 
-#### Opsi 2: Integrasi via Model Context Protocol (MCP)
-Tambahkan ke konfigurasi MCP IDE Anda (`~/.gemini/config/mcp_config.json` atau Claude Desktop):
+#### Option 2: Integration via Model Context Protocol (MCP)
+Add this to your IDE MCP configuration (`~/.gemini/config/mcp_config.json` or Claude Desktop):
 ```json
 {
   "mcpServers": {
@@ -150,24 +161,24 @@ Tambahkan ke konfigurasi MCP IDE Anda (`~/.gemini/config/mcp_config.json` atau C
   }
 }
 ```
-*(Atau gunakan repo klon lokal dengan command: `"node"` dan args: `["/path/to/readme-architect/bin/readme-architect.js", "--mcp"]`)*
+*(Or if running from a local clone, use command: `"node"` and args: `["/path/to/readme-architect/bin/readme-architect.js", "--mcp"]`)*
 
-#### Opsi 3: Pemasangan Manual per AI Agent
+#### Option 3: Manual Installation per AI Agent
 <details>
 <summary><b>🤖 Google Antigravity & Gemini CLI</b></summary>
 
-Salin adapter ke direktori skill lokal proyek:
+Copy adapter to local workspace skill directory:
 ```bash
 mkdir -p .agents/skills/readme-architect
 cp adapters/antigravity/SKILL.md .agents/skills/readme-architect/SKILL.md
 ```
-*Atau simpan secara global di:* `~/.gemini/config/skills/readme-architect/SKILL.md`.
+*Or install globally at:* `~/.gemini/config/skills/readme-architect/SKILL.md`.
 </details>
 
 <details>
 <summary><b>💻 Cursor IDE</b></summary>
 
-Salin rules ke direktori Cursor:
+Copy rules to Cursor directory:
 ```bash
 mkdir -p .cursor/rules
 cp adapters/cursor/readme-architect.mdc .cursor/rules/readme-architect.mdc
@@ -177,7 +188,7 @@ cp adapters/cursor/readme-architect.mdc .cursor/rules/readme-architect.mdc
 <details>
 <summary><b>🧠 Anthropic Claude Code</b></summary>
 
-Salin instruksi Claude ke root repositori:
+Copy instructions to repository root:
 ```bash
 cp adapters/claude/CLAUDE.md ./CLAUDE.md
 ```
@@ -186,73 +197,78 @@ cp adapters/claude/CLAUDE.md ./CLAUDE.md
 <details>
 <summary><b>🏄 Windsurf Cascade & GitHub Copilot</b></summary>
 
-- **Windsurf**: Salin `adapters/windsurf/windsurfrules.md` menjadi `.windsurfrules`.
-- **GitHub Copilot**: Salin `adapters/copilot/copilot-instructions.md` ke `.github/copilot-instructions.md`.
+- **Windsurf**: Copy `adapters/windsurf/windsurfrules.md` to `.windsurfrules`.
+- **GitHub Copilot**: Copy `adapters/copilot/copilot-instructions.md` to `.github/copilot-instructions.md`.
 </details>
 
 ---
 
-### 🛠️ Pengembangan Lokal & Kontribusi
+### 🛠️ Local Development & CLI Usage
 
 > [!IMPORTANT]
-> Pastikan sistem Anda telah terpasang runtime **JavaScript** dan package manager **npm**.
+> Ensure your system has **Node.js (>= 18.0.0)** and **npm** installed.
 
-#### 1. Instalasi Dependensi
+#### 1. Dependency Installation
 ```bash
 npm install
 ```
 
-#### 2. Menjalankan Aplikasi
+#### 2. Running Commands Directly
 ```bash
-npm run start
+# Generate README with Developer-Centric persona & Tokyo Night theme
+node bin/readme-architect.js --style developer-centric --theme tokyo-night
+
+# Run compliance audit (WCAG 2.2 AA & Anti-Hallucination)
+node bin/readme-architect.js --verify
 ```
-Aplikasi berjalan dan dapat diakses pada: `http://localhost:3000` *(Sumber: framework default fallback)*.
 <!-- readme-architect:end(setup) -->
 
 ---
 
 <!-- readme-architect:start(env) -->
-## 🔐 Konfigurasi Lingkungan (.env)
+## 🔐 Environment Configuration (.env)
 
-Tidak ada variabel lingkungan yang diperlukan.
+No environment variables are required. Pure zero-config execution.
 <!-- readme-architect:end(env) -->
 
 ---
 
 <!-- readme-architect:start(api) -->
-<span id="referensi-api"></span>
-## 📡 Referensi API
+<span id="api-reference"></span>
+## 📡 API & MCP Tools Reference
 
 <details>
-<summary><b>Lihat Spesifikasi Endpoint Utama</b></summary>
+<summary><b>View Exposed MCP Tools & Specifications</b></summary>
 
-### Health Check Endpoint
-`GET /health`
+### 1. `inspect_codebase`
+Scans codebase manifests, detects frameworks, verifies execution scripts, and sanitizes secrets.
 
-**Response (200 OK):**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2026-09-03T05:38:07.462Z"
-}
-```
+### 2. `generate_readme`
+Generates comprehensive 14-section accessible README based on selected style, theme, and registry.
+
+### 3. `validate_readme_compliance`
+Runs automated 4-point verification audit (WCAG 2.2 AA, SPDX 3.0, Mermaid fallback, anti-hallucination).
+
+### 4. `beautify_readme`
+Enhances existing markdown with themed Hero Header, badges, collapsible sections, and Unicode trees.
 </details>
 <!-- readme-architect:end(api) -->
 
 ---
 
 <!-- readme-architect:start(testing) -->
-## 🧪 Pengujian (Testing)
+## 🧪 Testing Suite
 
 ```bash
-npm run test
+npm test
 ```
+Runs 22 comprehensive unit and integration suites covering Scanner, ProofEngine, Link Integrity, Styles, Standards, Beautifier, Merger, and E2E generation.
 <!-- readme-architect:end(testing) -->
 
 ---
 
 <!-- readme-architect:start(deployment) -->
-## 🐳 Deployment & Kontainer
+## 🐳 Deployment & Containerization
 
 ```bash
 docker compose up -d --build
@@ -266,30 +282,26 @@ docker compose up -d --build
 ## ❓ Troubleshooting & FAQ
 
 <details>
-<summary><b>Lihat Pertanyaan & Solusi Masalah Umum</b></summary>
+<summary><b>View Common Questions & Solutions</b></summary>
 
-#### 1. Error: Port 3000 telah digunakan
-Pastikan tidak ada proses lokal lain yang menggunakan port ini atau ubah nilai port pada file `.env`.
+#### 1. How do I switch themes?
+Use the `--theme` CLI flag or configure `theme` in `readme-architect.config.json`. Available themes: `tokyo-night`, `catppuccin`, `nord`, `minimalist`.
 
-#### 2. Dependensi Gagal Terpasang
-Bersihkan cache package manager lalu jalankan ulang:
-```bash
-npm install
-```
+#### 2. Will regenerating overwrite my manual edits?
+No. README-Architect features a **Smart Delta Merger** engine that preserves any user notes wrapped in `<!-- user-content -->` and updates only architect-managed blocks.
 </details>
 <!-- readme-architect:end(troubleshooting) -->
-
 
 ---
 
 <!-- readme-architect:start(license) -->
-## 🔒 Kebijakan Keamanan (Security)
-Keamanan adalah prioritas utama. Untuk melaporkan celah kerentanan secara privat, silakan baca panduan di [SECURITY.md](SECURITY.md).
+## 🔒 Security Policy
+Security is our top priority. To responsibly report vulnerabilities, please refer to [SECURITY.md](SECURITY.md).
 
 ---
 
-## 📄 Lisensi & Hak Cipta
-Didistribusikan di bawah lisensi open source **MIT**.
+## 📄 License & Copyright
+Distributed under the open-source **MIT** License.
 
 `SPDX-License-Identifier: MIT`  
 `Copyright (c) 2026 readme-architect. All rights reserved.`

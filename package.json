@@ -15,6 +15,7 @@
     "readme-architect.config.json",
     "schema.json",
     "README.md",
+    "README.id.md",
     "LICENSE"
   ],
   "engines": {
