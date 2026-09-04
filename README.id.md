@@ -297,6 +297,15 @@ npm install
 
 ---
 
+## 🤝 Kontribusi & Evaluasi Komunitas
+
+Kontribusi dari komunitas sangat kami nantikan! Baik berupa penambahan pendeteksi manifest framework baru, pengiriman proposal evaluasi dokumentasi riil, maupun pembuatan adapter AI agent baru:
+- Baca panduan kontribusi lengkap di [CONTRIBUTING.md](CONTRIBUTING.md).
+- Kirimkan proposal evaluasi dokumentasi riil di [evaluations/](evaluations/).
+- Laporkan kendala teknis atau usulkan ide fitur di [GitHub Issues](https://github.com/hanifalkauni/readme-architect/issues).
+
+---
+
 <!-- readme-architect:start(license) -->
 ## 🔒 Kebijakan Keamanan (Security)
 Keamanan adalah prioritas utama. Untuk melaporkan celah kerentanan secara privat, silakan baca panduan di [SECURITY.md](SECURITY.md).

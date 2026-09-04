@@ -12,8 +12,10 @@
     "core",
     "adapters",
     "themes",
+    "evaluations",
     "readme-architect.config.json",
     "schema.json",
+    "CONTRIBUTING.md",
     "README.md",
     "README.id.md",
     "LICENSE"

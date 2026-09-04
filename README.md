@@ -304,6 +304,15 @@ No. README-Architect features a **Smart Delta Merger** engine that preserves any
 
 ---
 
+## 🤝 Contributing & Community Evaluations
+
+Contributions are warmly welcomed! Whether adding new framework manifest sniffers, submitting real-world documentation evaluation RFCs, or creating new AI agent adapters:
+- Read our full [Contributing Guide](CONTRIBUTING.md).
+- Submit real-world documentation evaluation RFCs in [evaluations/](evaluations/).
+- Report bugs or propose new features via [GitHub Issues](https://github.com/hanifalkauni/readme-architect/issues).
+
+---
+
 <!-- readme-architect:start(license) -->
 ## 🔒 Security Policy
 Security is our top priority. To responsibly report vulnerabilities, please refer to [SECURITY.md](SECURITY.md).
