@@ -142,13 +142,19 @@ flowchart TD
 
 ### 🚀 Integrating Skills with AI Agents
 
-#### Option 1: Automatic via CLI Sync (Recommended)
+#### Option 1: Automatic via skills.sh (Fastest — 30+ AI Agents)
+Install with a single command directly into Cursor, Claude Code, Windsurf, Copilot, or Gemini CLI:
+```bash
+npx skills add hanifalkauni/readme-architect
+```
+
+#### Option 2: Automatic via CLI Sync
 Run this command in any target project root to export all agent adapters automatically:
 ```bash
 npx github:hanifalkauni/readme-architect --sync-agents
 ```
 
-#### Option 2: Integration via Model Context Protocol (MCP)
+#### Option 3: Integration via Model Context Protocol (MCP)
 Add this to your IDE MCP configuration (`~/.gemini/config/mcp_config.json`, `.kiro/settings/mcp.json`, or Claude Desktop):
 ```json
 {

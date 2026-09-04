@@ -136,13 +136,19 @@ flowchart TD
 
 ### 🚀 Cara Pasang & Integrasi Skill ke AI Agent
 
-#### Opsi 1: Otomatis via CLI Sync (Rekomendasi)
+#### Opsi 1: Otomatis via skills.sh (Tercepat — 30+ AI Agent)
+Pasang langsung ke Cursor, Claude Code, Windsurf, Copilot, atau Gemini CLI hanya dengan 1 perintah:
+```bash
+npx skills add hanifalkauni/readme-architect
+```
+
+#### Opsi 2: Otomatis via CLI Sync
 Jalankan perintah ini di root proyek target untuk memasang seluruh adapter secara otomatis:
 ```bash
 npx readme-architect --sync-agents
 ```
 
-#### Opsi 2: Integrasi via Model Context Protocol (MCP)
+#### Opsi 3: Integrasi via Model Context Protocol (MCP)
 Tambahkan ke konfigurasi MCP IDE Anda (`~/.gemini/config/mcp_config.json`, `.kiro/settings/mcp.json`, atau Claude Desktop):
 ```json
 {
