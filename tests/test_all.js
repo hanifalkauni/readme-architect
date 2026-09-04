@@ -9,6 +9,7 @@ import { BeautifierEngine } from '../core/beautifier.js';
 import { DeltaMerger } from '../core/merger.js';
 import { RegistryAdapter } from '../core/registry_adapter.js';
 import { ReadmeArchitect } from '../core/index.js';
+import { McpServer } from '../core/mcp_server.js';
 
 let passed = 0;
 let failed = 0;
@@ -318,6 +319,55 @@ Support my open source work on Patreon!
 
     // Cleanup
     if (fs.existsSync(idPath)) fs.unlinkSync(idPath);
+  });
+
+  // ----------------------------------------------------
+  // 9. McpServer Tuned Capabilities Tests
+  // ----------------------------------------------------
+  console.log('\n🤖 [9/9] Testing McpServer Tuned Capabilities...');
+  await itAsync('Should validate compliance and detect broken links & missing SPDX', async () => {
+    const server = new McpServer();
+    const result = await server.executeTool('validate_readme_compliance', {
+      markdown_content: '# Project\n\n[broken link](does-not-exist.md)\n\n[![alt](img.png)]()\n'
+    });
+    assert.strictEqual(result.status, 'WARNINGS_DETECTED');
+    assert.ok(result.issues.some(i => i.type === 'BROKEN_LINK'));
+    assert.ok(result.issues.some(i => i.type === 'SPDX_LICENSE'));
+  });
+
+  await itAsync('Should pass compliance with score 100 on fully valid Markdown', async () => {
+    const server = new McpServer();
+    const result = await server.executeTool('validate_readme_compliance', {
+      markdown_content: 'SPDX-License-Identifier: MIT\n\n# Project\n\n[Valid](README.md)\n',
+      path: '.'
+    });
+    assert.strictEqual(result.status, 'PASSED_ALL_STANDARDS');
+    assert.strictEqual(result.score, '100/100');
+    assert.strictEqual(result.checks.spdx_license_compliant, true);
+    assert.strictEqual(result.checks.broken_links_count, 0);
+  });
+
+  await itAsync('Should beautify markdown by injecting Mermaid theme and fixing links without dummy headers', async () => {
+    const server = new McpServer();
+    const rawMarkdown = '# My Custom Title\n\n```mermaid\ngraph TD\nA-->B\n```\n\n[Empty link]()';
+    const beautified = await server.executeTool('beautify_readme', {
+      markdown_content: rawMarkdown
+    });
+    assert.ok(beautified.includes('%%{init:'), 'Mermaid theme directive must be injected');
+    assert.ok(!beautified.includes('# Project'), 'Must NOT inject dummy project header');
+    assert.ok(!beautified.includes('[Empty link]()'), 'Empty link must be cleaned');
+  });
+
+  await itAsync('Should return standard MCP isError response on invalid tool name', async () => {
+    const server = new McpServer();
+    const response = await server.handleMessage({
+      jsonrpc: '2.0',
+      id: 99,
+      method: 'tools/call',
+      params: { name: 'non_existent_tool', arguments: {} }
+    });
+    assert.strictEqual(response.result.isError, true);
+    assert.ok(response.result.content[0].text.includes('Tool execution error'));
   });
 
   // ----------------------------------------------------
