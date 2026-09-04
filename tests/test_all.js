@@ -39,7 +39,7 @@ async function itAsync(desc, fn) {
 
 async function runTests() {
   console.log('\n🧪 ========================================================');
-  console.log('   README-Architect v1.6.0 Automated Test Suite');
+  console.log('   README-Architect v1.0.0 Automated Test Suite');
   console.log('========================================================\n');
 
   // ----------------------------------------------------

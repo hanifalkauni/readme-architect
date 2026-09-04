@@ -48,7 +48,7 @@ function parseArgs(args, config = {}) {
 
 function showHelp() {
   console.log(`
-🚀 README-Architect (v1.6.0)
+🚀 README-Architect (v1.0.0)
 Universal AI Skill Agent for Automated, Accurate & Stunning README Generation
 
 Penggunaan:

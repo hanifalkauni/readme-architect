@@ -1,6 +1,6 @@
 {
   "name": "readme-architect",
-  "version": "1.6.0",
+  "version": "1.0.0",
   "description": "Universal AI Skill Agent for Automated, Accurate, Comprehensive & Visually Stunning README Generation",
   "type": "module",
   "main": "core/index.js",
