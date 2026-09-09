@@ -336,6 +336,13 @@ export class McpServer {
         suggestions.push('Sertakan narasi arsitektur atau penjelasan teks terstruktur di dekat diagram visual Mermaid untuk audiens tunanetra (screen reader).');
       }
 
+      // F. Check Repository Structure / Directory Layout
+      const hasRepoStructure = /##\s+.*(repository\s+structure|repository\s+layout|struktur\s+repositori|directory\s+structure|struktur\s+direktori)/i.test(content) ||
+                               /```(?:text|bash|sh|plaintext)?\s*\n.*(?:├──|└──|│)/s.test(content);
+      if (!hasRepoStructure) {
+        suggestions.push('Sertakan seksi "## 📂 Repository Structure" atau "## 📂 Struktur Repositori" dengan pohon direktori (ASCII/Unicode tree) untuk memetakan arsitektur berkas bagi kontributor dan AI agent.');
+      }
+
       const score = Math.max(0, 100 - issues.length * 20);
 
       return {
@@ -345,6 +352,7 @@ export class McpServer {
           a11y_wcag22_compliant: !hasEmptyBadgeAlt,
           spdx_license_compliant: hasSpdx,
           mermaid_diagram_present: hasMermaid,
+          repository_structure_present: hasRepoStructure,
           broken_links_count: brokenLinks.length,
           secrets_leak_free: !secretLeakFound
         },

@@ -91,7 +91,7 @@ ${scanData.ecosystem.package_manager} --filter <package-name> dev
 \`\`\``;
     }
     const dirTitle = isId ? 'Struktur Repositori' : 'Repository Structure';
-    const directoryContent = `## 📂 ${dirTitle}\n\n\`\`\`text\n${treeRaw || '├── src/\n└── README.md'}\n\`\`\`${monorepoBlock}`;
+    const directoryContent = `<span id="repository-structure"></span>\n<span id="struktur-repositori"></span>\n## 📂 ${dirTitle}\n\n\`\`\`text\n${treeRaw || '├── src/\n└── README.md'}\n\`\`\`${monorepoBlock}`;
 
     // 6. Tech Stack Matrix
     const techRows = scanData.ecosystem.frameworks.map(f => {
