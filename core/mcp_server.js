@@ -87,7 +87,7 @@ export class McpServer {
       },
       {
         name: 'validate_readme_compliance',
-        description: 'Pemeriksaan kepatuhan mendalam: Verifikasi integritas link (anti-404), deteksi kebocoran credential rahasia (API keys/JWT), kepatuhan aksesibilitas WCAG 2.2 AA (alt-text), dan SPDX License.',
+        description: 'Pemeriksaan kepatuhan mendalam: Verifikasi integritas link (anti-404), deteksi kebocoran credential rahasia (API keys/JWT), kepatuhan aksesibilitas WCAG 2.2 AA (alt-text), validasi tata letak struktur direktori/repositori, dan SPDX License.',
         inputSchema: {
           type: 'object',
           properties: {
