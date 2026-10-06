@@ -338,7 +338,7 @@ Support my open source work on Patreon!
   await itAsync('Should pass compliance with score 100 on fully valid Markdown', async () => {
     const server = new McpServer();
     const result = await server.executeTool('validate_readme_compliance', {
-      markdown_content: 'SPDX-License-Identifier: MIT\n\n# Project\n\n## 📂 Repository Structure\n```text\n├── src/\n└── README.md\n```\n\n[Valid](README.md)\n',
+      markdown_content: 'SPDX-License-Identifier: MIT\n\n# Project\n\n## 📂 Repository Structure\n```text\n├── src/\n└── README.md\n```\n\n## 💻 CLI & API Reference\n| Command | Description |\n|---|---|\n| `run` | Execute |\n\n## ❓ FAQ & Troubleshooting\n<details><summary>How to use?</summary>Run the command</details>\n\n- [Contributing](CONTRIBUTING.md)\n- [Security](SECURITY.md)\n\n[Valid](README.md)\n',
       path: '.'
     });
     assert.strictEqual(result.status, 'PASSED_ALL_STANDARDS');

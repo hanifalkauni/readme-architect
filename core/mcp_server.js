@@ -343,7 +343,75 @@ export class McpServer {
         suggestions.push('Sertakan seksi "## 📂 Repository Structure" atau "## 📂 Struktur Repositori" dengan pohon direktori (ASCII/Unicode tree) untuk memetakan arsitektur berkas bagi kontributor dan AI agent.');
       }
 
-      const score = Math.max(0, 100 - issues.length * 20);
+      // G. Deep Functional Blueprint Completeness Audit (14-Section Architecture)
+      const blueprint = proofEngine.auditBlueprintCompleteness(content, rootDir);
+
+      // Check CLI / API Reference
+      if (!blueprint.cli_or_api_reference) {
+        issues.push({
+          type: 'MISSING_CLI_OR_API_REFERENCE',
+          severity: 'HIGH',
+          message: 'README belum memuat tabel referensi perintah/flag CLI atau dokumentasi endpoint/tools API. Pengguna dan AI agent membutuhkan referensi perintah yang jelas.'
+        });
+        suggestions.push('Tambahkan seksi "## 💻 CLI Reference" atau "## 📡 API Reference" lengkap dengan tabel parameter dan contoh penggunaannya.');
+      }
+
+      // Check Environment Variables Table
+      const hasEnvInRepo = fs.existsSync(path.join(rootDir, '.env.example')) ||
+                           fs.existsSync(path.join(rootDir, '.env.template')) ||
+                           fs.existsSync(path.join(rootDir, '.env.sample'));
+      if (!blueprint.environment_variables && hasEnvInRepo) {
+        issues.push({
+          type: 'MISSING_ENV_VARS_TABLE',
+          severity: 'HIGH',
+          message: 'Repositori memiliki file konfigurasi environment (.env.example), tetapi README belum menyertakan tabel dokumentasi variabel lingkungan.'
+        });
+        suggestions.push('Tambahkan seksi "## 🔑 Environment Variables" yang mendokumentasikan setiap variabel lingkungan beserta deskripsi dan nilai defaultnya.');
+      }
+
+      // Check Troubleshooting & FAQ
+      if (!blueprint.troubleshooting_faq) {
+        issues.push({
+          type: 'MISSING_TROUBLESHOOTING_FAQ',
+          severity: 'MEDIUM',
+          message: 'README belum menyertakan seksi Troubleshooting & FAQ untuk membantu pengguna mengatasi masalah/kendala umum.'
+        });
+        suggestions.push('Tambahkan seksi "## ❓ FAQ & Troubleshooting" dengan 3-5 pertanyaan umum menggunakan elemen collapsible <details><summary>.');
+      }
+
+      // Check Contributing Guide
+      const hasContributingFile = fs.existsSync(path.join(rootDir, 'CONTRIBUTING.md')) ||
+                                  fs.existsSync(path.join(rootDir, 'docs', 'CONTRIBUTING.id.md'));
+      if (!blueprint.contributing_guide && hasContributingFile) {
+        issues.push({
+          type: 'MISSING_CONTRIBUTING_LINK',
+          severity: 'MEDIUM',
+          message: 'Repositori memiliki panduan kontribusi (CONTRIBUTING.md), namun belum ditautkan di dalam README.'
+        });
+        suggestions.push('Tautkan file [CONTRIBUTING.md](CONTRIBUTING.md) di seksi Dokumentasi Terkait atau Contributing.');
+      }
+
+      // Check Security Policy Link
+      const hasSecurityFile = fs.existsSync(path.join(rootDir, 'SECURITY.md')) ||
+                              fs.existsSync(path.join(rootDir, 'docs', 'SECURITY.id.md'));
+      if (!blueprint.security_policy && hasSecurityFile) {
+        issues.push({
+          type: 'MISSING_SECURITY_LINK',
+          severity: 'MEDIUM',
+          message: 'Repositori memiliki kebijakan keamanan (SECURITY.md), namun belum ditautkan di dalam README.'
+        });
+        suggestions.push('Tautkan file [SECURITY.md](SECURITY.md) di seksi Security Policy agar peneliti keamanan tahu cara melaporkan celah secara privat.');
+      }
+
+      // Check Testing / Quality Assurance
+      if (!blueprint.testing_qa) {
+        suggestions.push('Tambahkan seksi "## 🧪 Testing" atau instruksi menjalankan unit test / race detector.');
+      }
+
+      const score = Math.max(0, 100 - (issues.filter(i => i.severity === 'CRITICAL').length * 30 +
+                                       issues.filter(i => i.severity === 'HIGH').length * 15 +
+                                       issues.filter(i => i.severity === 'MEDIUM').length * 10 +
+                                       issues.filter(i => i.severity === 'LOW').length * 5));
 
       return {
         status: issues.length === 0 ? 'PASSED_ALL_STANDARDS' : 'WARNINGS_DETECTED',
@@ -354,7 +422,13 @@ export class McpServer {
           mermaid_diagram_present: hasMermaid,
           repository_structure_present: hasRepoStructure,
           broken_links_count: brokenLinks.length,
-          secrets_leak_free: !secretLeakFound
+          secrets_leak_free: !secretLeakFound,
+          cli_or_api_reference_present: blueprint.cli_or_api_reference,
+          environment_variables_documented: blueprint.environment_variables,
+          troubleshooting_faq_present: blueprint.troubleshooting_faq,
+          contributing_guide_present: blueprint.contributing_guide,
+          security_policy_present: blueprint.security_policy,
+          testing_qa_present: blueprint.testing_qa
         },
         issues,
         suggestions

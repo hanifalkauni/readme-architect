@@ -272,4 +272,27 @@ export class ProofEngine {
 
     return cleaned;
   }
+
+  /**
+   * Mengaudit kelengkapan fungsional README terhadap 14 Seksi Wajib Blueprint
+   * dan mencocokkannya dengan karakteristik fisik codebase repositori.
+   */
+  auditBlueprintCompleteness(content, rootDir = this.rootDir) {
+    return {
+      hero_header: /(?:<div align="center"|#\s+[^#\n]+)/i.test(content),
+      features: /##\s+.*(?:feature|fitur|capability|kemampuan|pilar|pillar)/i.test(content),
+      architecture_diagram: /```mermaid/i.test(content),
+      directory_structure: /(?:├──|└──|│|repository\s+structure|struktur\s+repositori|directory\s+structure)/i.test(content),
+      prerequisites: /##\s+.*(?:prerequisite|prasyarat|requirement|kebutuhan)/i.test(content) || /`>=|version\s+[0-9]/i.test(content),
+      getting_started: /##\s+.*(?:quick\s*start|getting\s*started|instalasi|installation|panduan)/i.test(content),
+      cli_or_api_reference: /##\s+.*(?:cli|command|perintah|api|reference|referensi|endpoint|tool)/i.test(content) || /\|.*(?:Command|Flag|Option|Endpoint|Method|Perintah|Argumen).*\|/i.test(content),
+      environment_variables: /##\s+.*(?:environment\s+variable|variabel\s+lingkungan|env\s+variable|\.env)/i.test(content) || /\|.*(?:Variable|Variabel|Key|ENV|Token).*\|/i.test(content),
+      testing_qa: /##\s+.*(?:testing|test|pengujian|qa|quality)/i.test(content) || /```(?:bash|sh|text|powershell)?\s*\n.*(?:go test|npm test|pytest|cargo test|mvn test)/i.test(content),
+      troubleshooting_faq: /##\s+.*(?:troubleshooting|faq|tanya\s+jawab|kendala|frequently\s+asked)/i.test(content) || /<summary>.*(?:how|why|bagaimana|kenapa|apa|\?)/i.test(content),
+      contributing_guide: /contributing(?:\.id)?\.md/i.test(content) || /##\s+.*(?:contributing|kontribusi|contribute)/i.test(content),
+      security_policy: /security(?:\.id)?\.md/i.test(content) || /##\s+.*(?:security|keamanan)/i.test(content),
+      spdx_license: /SPDX-License-Identifier:/i.test(content)
+    };
+  }
 }
+
