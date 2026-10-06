@@ -11,7 +11,7 @@
 
 [![Build Status: Passing](https://img.shields.io/badge/Build-Passing-9ece6a?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/hanifalkauni/readme-architect/actions)
 [![Coverage: 96%](https://img.shields.io/badge/Coverage-96%25-9ece6a?style=for-the-badge&logo=vitest&logoColor=white)](https://github.com/hanifalkauni/readme-architect)
-[![License: MIT](https://img.shields.io/badge/License-MIT-7aa2f7?style=for-the-badge)](https://github.com/hanifalkauni/readme-architect/blob/main/LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue?style=for-the-badge)](https://github.com/hanifalkauni/readme-architect/blob/main/LICENSE)
 
 <p align="center">
   <a href="#fitur-utama">Fitur Utama</a> •
@@ -319,8 +319,8 @@ Keamanan adalah prioritas utama. Untuk melaporkan celah kerentanan secara privat
 ---
 
 ## 📄 Lisensi & Hak Cipta
-Didistribusikan di bawah lisensi open source **MIT**.
+Didistribusikan di bawah lisensi open source **Apache License 2.0**.
 
-`SPDX-License-Identifier: MIT`  
-`Copyright (c) 2026 readme-architect. All rights reserved.`
+`SPDX-License-Identifier: Apache-2.0`  
+`Copyright 2026 Hanif Al-Kauni. All rights reserved.`
 <!-- readme-architect:end(license) -->
